@@ -1,0 +1,7 @@
+# TODO: このワークショップのリポジトリ名に置き換える
+[repo]
+name = "cdkd-intro-workshop"
+
+# TODO: 参加者に複製させるテンプレートリポジトリに置き換える
+[template]
+repo = "jaws-ug-cdk/cdk-workshop-template"
