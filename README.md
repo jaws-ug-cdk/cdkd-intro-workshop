@@ -38,5 +38,5 @@ $ open http://localhost:1313/
 ## License Summary
 
 This project is released under the MIT License. See the [LICENSE](./LICENSE) file.
-本資料は [AWS CDK Workshop](https://cdkworkshop.com/) を基にしています（[LICENSE](./LICENSE) に帰属を記載）。
+リポジトリの構成は [aws-cdk-coding-beginner-workshop](https://github.com/jaws-ug-cdk/aws-cdk-coding-beginner-workshop) を基にしています。
 同梱テーマ [hugo-theme-learn](https://github.com/matcornic/hugo-theme-learn) は MIT ライセンス（`workshop/themes/learn/LICENSE.md`）です。
