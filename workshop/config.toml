@@ -1,5 +1,4 @@
 # Hugo 設定ファイル（テンプレート）
-# TODO: baseURL を実際の公開URL（GitHub Pages 等）に置き換える
 baseURL = "https://jaws-ug-cdk.github.io/cdkd-intro-workshop"
 languageCode = "ja"
 defaultContentLanguage = "ja"
@@ -23,8 +22,7 @@ disableAssetsBusting = true
 disableLanguageSwitchingButton = true
 disableShortcutsTitle = true
 
-# 画面右上のショートカットリンク（サンプル）。
-# TODO: このワークショップで案内したい外部リンクに置き換える。
+# 画面右上のショートカットリンク
 [[menu.shortcuts]]
 name = "<i class='fab fa-github fa-lg'></i> GitHub リポジトリ"
 identifier = "gh"

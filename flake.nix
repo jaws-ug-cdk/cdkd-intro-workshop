@@ -1,5 +1,4 @@
 {
-  # TODO: ワークショップ名に置き換える
   description = "cdkd Intro Workshop - dev environment";
 
   inputs = {
@@ -21,7 +20,6 @@
           ];
 
           shellHook = ''
-            # TODO: ワークショップ名に置き換える
             echo "cdkd Intro Workshop dev shell"
             echo "  hugo : $(hugo version | head -n1)"
             echo "  node : $(node --version)"
