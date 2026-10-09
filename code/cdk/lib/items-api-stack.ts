@@ -19,7 +19,7 @@ export class ItemsApiStack extends cdk.Stack {
 
     const handler = new lambda.Function(this, 'ItemsHandler', {
       runtime: lambda.Runtime.NODEJS_24_X,
-      code: lambda.Code.fromAsset(path.join(__dirname, 'lambda')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda')),
       handler: 'items.handler',
       logGroup: new logs.LogGroup(this, 'ItemsHandlerLogGroup', {
         retention: logs.RetentionDays.ONE_WEEK,
