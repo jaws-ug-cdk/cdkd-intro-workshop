@@ -30,24 +30,24 @@ export AWS_REGION=ap-northeast-1   # cdkd はプロファイルの region を読
 ## デプロイ
 
 ```bash
-cd cdk     && npx cdk deploy
-cd express && npx cdk deploy --express
-cd cdkd    && npx cdkd deploy
+cd cdk     && npx cdk deploy --yes
+cd express && npx cdk deploy --express --yes
+cd cdkd    && npx cdkd deploy --yes
 ```
 
 ## 更新
 
 編集したら、3 つのターミナルで同じコマンドをもう一度実行します。
 
-- 更新体験 ①: `lambda/items.js` の `message` を書き換える（1 か所で 3 つに反映される。`cdk/` では `npx cdk deploy --hotswap` も試す）
+- 更新体験 ①: `lambda/items.js` の `message` を書き換える（1 か所で 3 つに反映される。`cdk/` では `npx cdk deploy --hotswap --yes` も試す）
 - 更新体験 ②: 3 つの `lib/items-api-stack.ts` それぞれで、`GET /items/{id}` ルートのコメントを外す
 
 ## 削除
 
 ```bash
-cd cdk     && npx cdk destroy
-cd express && npx cdk destroy --express
-cd cdkd    && npx cdkd destroy
+cd cdk     && npx cdk destroy --yes
+cd express && npx cdk destroy --express --yes
+cd cdkd    && npx cdkd destroy --yes
 ```
 
 ## テスト
