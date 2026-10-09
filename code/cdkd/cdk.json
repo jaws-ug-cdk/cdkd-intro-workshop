@@ -1,5 +1,6 @@
 {
   "app": "npx tsc -p .. && npx tsx bin/cdkd.ts",
+  "requireApproval": "never",
   "watch": {
     "include": [
       "**"
