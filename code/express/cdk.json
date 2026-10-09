@@ -1,6 +1,5 @@
 {
   "app": "npx tsc -p .. && npx tsx bin/express.ts",
-  "requireApproval": "never",
   "watch": {
     "include": [
       "**"
