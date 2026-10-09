@@ -17,12 +17,14 @@
             pkgs.hugo
             pkgs.nodejs_24
             pkgs.git
+            pkgs.awscli2
           ];
 
           shellHook = ''
             echo "cdkd Intro Workshop dev shell"
             echo "  hugo : $(hugo version | head -n1)"
             echo "  node : $(node --version)"
+            echo "  aws  : $(aws --version)"
             echo ""
             echo "ローカルプレビュー: hugo server -D --source workshop"
           '';
