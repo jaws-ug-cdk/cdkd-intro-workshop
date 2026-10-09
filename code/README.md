@@ -4,15 +4,20 @@
 
 ```
 code/
-├── shared/                 # 3 つのアプリで共通のスタック定義と Lambda のコード
-│   ├── items-api-stack.ts
-│   └── lambda/items.js
+├── lambda/items.js         # 3 つのアプリで共通の Lambda のコード
 ├── cdk/                    # cdk deploy            → CdkStack
+│   ├── bin/cdk.ts
+│   └── lib/items-api-stack.ts
 ├── express/                # cdk deploy --express  → CdkExpressStack
+│   ├── bin/express.ts
+│   └── lib/items-api-stack.ts
 └── cdkd/                   # cdkd deploy           → CdkdStack
+    ├── bin/cdkd.ts
+    └── lib/items-api-stack.ts
 ```
 
 ディレクトリごとに CDK アプリが分かれているので、ターミナルを 3 つ開いて同時に実行できます。
+3 つの `lib/items-api-stack.ts` は同じ内容です（`npm test` で同じテンプレートになることを確かめています）。
 
 ## 準備
 
@@ -32,10 +37,10 @@ cd cdkd    && npx cdkd deploy
 
 ## 更新
 
-編集するのは `shared/` だけです。編集したら、3 つのターミナルで同じコマンドをもう一度実行します。
+編集したら、3 つのターミナルで同じコマンドをもう一度実行します。
 
-- 更新体験 ①: `shared/lambda/items.js` の `message` を書き換える（`cdk/` では `npx cdk deploy --hotswap` も試す）
-- 更新体験 ②: `shared/items-api-stack.ts` の `GET /items/{id}` ルートのコメントを外す
+- 更新体験 ①: `lambda/items.js` の `message` を書き換える（1 か所で 3 つに反映される。`cdk/` では `npx cdk deploy --hotswap` も試す）
+- 更新体験 ②: 3 つの `lib/items-api-stack.ts` それぞれで、`GET /items/{id}` ルートのコメントを外す
 
 ## 削除
 

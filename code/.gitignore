@@ -8,4 +8,4 @@ node_modules
 cdk.out
 
 # Lambda のハンドラは生の JS で置く
-!shared/lambda/*.js
+!lambda/*.js

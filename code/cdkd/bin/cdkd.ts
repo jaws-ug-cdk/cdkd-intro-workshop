@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib/core';
-import { ItemsApiStack } from '../shared/items-api-stack';
+import { ItemsApiStack } from '../lib/items-api-stack';
 
 // `cdkd deploy` でデプロイするアプリ
 const app = new cdk.App();

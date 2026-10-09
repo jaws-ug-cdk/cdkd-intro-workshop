@@ -1,5 +1,5 @@
 {
-  "app": "npx tsc -p .. && npx tsx cdk.ts",
+  "app": "npx tsc -p .. && npx tsx bin/cdk.ts",
   "watch": {
     "include": [
       "**"
