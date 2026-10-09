@@ -29,7 +29,7 @@ export class ItemsApiStack extends cdk.Stack {
         TABLE_NAME: table.tableName,
       },
     });
-    table.grantReadWriteData(handler);
+    table.grants.readWriteData(handler);
 
     const api = new apigwv2.HttpApi(this, 'ItemsApi');
     const integration = new HttpLambdaIntegration('ItemsIntegration', handler);
