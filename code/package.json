@@ -7,7 +7,6 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@go-to-k/cdkd": "0.296.25",
     "@swc/core": "^1.15.0",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30",

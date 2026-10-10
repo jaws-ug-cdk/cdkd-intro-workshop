@@ -17,14 +17,17 @@
             pkgs.hugo
             pkgs.nodejs_24
             pkgs.git
+            pkgs.awscli2
           ];
 
           shellHook = ''
+            # Node は Nix のストア（読み取り専用）にあるため、npm i -g の行き先をホームに向ける
+            export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+            export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
+
             echo "cdkd Intro Workshop dev shell"
-            echo "  hugo : $(hugo version | head -n1)"
             echo "  node : $(node --version)"
-            echo ""
-            echo "ローカルプレビュー: hugo server -D --source workshop"
+            echo "  aws  : $(aws --version)"
           '';
         };
       });
