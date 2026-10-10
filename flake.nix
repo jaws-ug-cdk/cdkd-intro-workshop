@@ -26,11 +26,8 @@
             export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
 
             echo "cdkd Intro Workshop dev shell"
-            echo "  hugo : $(hugo version | head -n1)"
             echo "  node : $(node --version)"
             echo "  aws  : $(aws --version)"
-            echo ""
-            echo "ローカルプレビュー: hugo server -D --source workshop"
           '';
         };
       });
