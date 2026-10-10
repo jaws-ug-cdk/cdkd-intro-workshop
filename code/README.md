@@ -23,6 +23,7 @@ code/
 
 ```bash
 npm ci
+npm i -g @go-to-k/cdkd@0.296.25
 export AWS_PROFILE=<プロファイル名>
 export AWS_REGION=ap-northeast-1   # cdkd はプロファイルの region を読まないため必須
 ```
@@ -32,7 +33,7 @@ export AWS_REGION=ap-northeast-1   # cdkd はプロファイルの region を読
 ```bash
 cd cdk     && npx cdk deploy --yes
 cd express && npx cdk deploy --express --yes
-cd cdkd    && npx cdkd deploy --yes
+cd cdkd    && cdkd deploy --yes
 ```
 
 ## 更新
@@ -47,7 +48,7 @@ cd cdkd    && npx cdkd deploy --yes
 ```bash
 cd cdk     && npx cdk destroy --yes
 cd express && npx cdk destroy --express --yes
-cd cdkd    && npx cdkd destroy --yes
+cd cdkd    && cdkd destroy --yes
 ```
 
 ## テスト
