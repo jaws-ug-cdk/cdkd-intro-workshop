@@ -6,12 +6,13 @@ cdkd を初めて学ぶ人向けのワークショップリポジトリです。
 ## Codespaces
 
 ワークショップの参加者は、このリポジトリから GitHub Codespaces を開いて進めます。
-起動時に [.devcontainer/](.devcontainer/) の設定で Nix の開発環境（Node.js、AWS CLI）が用意され、[code/](code/) の依存もインストールされます。
+起動時に [.devcontainer/](.devcontainer/) の設定で Node.js と AWS CLI が用意され、[code/](code/) の依存もインストールされます。
+ワークショップの本文は GitHub Pages で読むため、Codespaces には hugo や Nix は入れていません。
 
 ## Developer Guide
 
 このワークショップは [hugo](http://gohugo.io) で markdown を静的 HTML サイトとしてビルドします。
-開発環境は [Nix](https://nixos.org/) で再現します。
+執筆者の開発環境は [Nix](https://nixos.org/) で再現します（参加者は使いません）。
 
 ```bash
 # 未導入なら Nix をインストール
