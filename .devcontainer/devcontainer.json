@@ -6,12 +6,7 @@
   "containerEnv": {
     // cdkd deploy はプロファイルの region を読まず us-east-1 に落ちるため、環境変数で渡す
     // https://github.com/go-to-k/cdkd/issues/2100
-    "AWS_REGION": "ap-northeast-1",
-    // Node は Nix のストア（読み取り専用）にあるため、npm i -g の行き先をホームに向ける
-    "NPM_CONFIG_PREFIX": "/home/vscode/.npm-global"
-  },
-  "remoteEnv": {
-    "PATH": "/home/vscode/.npm-global/bin:${containerEnv:PATH}"
+    "AWS_REGION": "ap-northeast-1"
   },
   "postStartCommand": "sudo bash -c 'setsid nohup /nix/var/nix/profiles/default/bin/nix-daemon >/var/log/nix-daemon.log 2>&1 < /dev/null &' || true",
   "postCreateCommand": "bash .devcontainer/postCreate.sh"
