@@ -8,7 +8,11 @@ weight = 300
 ## cdk deploy（通常の CDK）
 
 AWS CDK は、TypeScript などのプログラミング言語でインフラを定義できるツールです。
-`cdk deploy` を実行すると、CDK はコードを **CloudFormation テンプレート**（JSON 形式のインフラの設計図）に変換し、AWS CloudFormation にデプロイを依頼します。
+`cdk deploy` を実行すると、CDK はコードを **CloudFormation テンプレート**（インフラの設計図）に変換し、AWS CloudFormation にデプロイを依頼します。
+
+{{% notice info %}}
+**CloudFormation テンプレートの形式**: CloudFormation のテンプレートは、JSON と YAML のどちらでも書けます。手で書くときは読みやすい YAML がよく使われますが、CDK は JSON で出力します（`cdk.out/CdkStack.template.json` など）。`cdk synth` を実行したときに画面に表示されるのは、読みやすいように YAML に変換したものです。
+{{% /notice %}}
 
 CloudFormation は、テンプレートのとおりにリソースを作り、すべてのリソースが使える状態になるまで確かめてから完了します。途中で失敗したら、元の状態に戻してくれます（ロールバック）。安全な代わりに、待ち時間が長くなりがちです。
 
