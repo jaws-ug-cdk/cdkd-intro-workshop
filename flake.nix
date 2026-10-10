@@ -21,7 +21,7 @@
           ];
 
           shellHook = ''
-            # Node は Nix のストア（読み取り専用）にあるため、npm i -g の行き先をホームに向ける
+            # Node は Nix のストア（読み取り専用）にあるため、npm i -g（cdkd の導入）の行き先をホームに向ける
             export NPM_CONFIG_PREFIX="$HOME/.npm-global"
             export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
 
