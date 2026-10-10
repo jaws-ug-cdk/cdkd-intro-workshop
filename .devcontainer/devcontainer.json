@@ -6,7 +6,10 @@
   "containerEnv": {
     // cdkd deploy はプロファイルの region を読まず us-east-1 に落ちるため、環境変数で渡す
     // https://github.com/go-to-k/cdkd/issues/2100
-    "AWS_REGION": "ap-northeast-1"
+    "AWS_REGION": "ap-northeast-1",
+    // ターミナルを開くたびに出る direnv のログと「時間がかかっている」警告を抑える
+    "DIRENV_LOG_FORMAT": "",
+    "DIRENV_WARN_TIMEOUT": "5m"
   },
   "postStartCommand": "sudo bash -c 'setsid nohup /nix/var/nix/profiles/default/bin/nix-daemon >/var/log/nix-daemon.log 2>&1 < /dev/null &' || true",
   "postCreateCommand": "bash .devcontainer/postCreate.sh"
