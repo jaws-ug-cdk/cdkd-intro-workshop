@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>環境準備 on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/index.html</link><description>Recent content in 環境準備 on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/index.xml" rel="self" type="application/rss+xml"/><item><title>AWS にログインする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;ブラウザから AWS アカウントにサインインします。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://console.aws.amazon.com/" target="_blank" rel="noopener noreferrer"&gt;https://console.aws.amazon.com/&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;画面右上のリージョンが「東京」（&lt;code&gt;ap-northeast-1&lt;/code&gt;）になっていることを確認します。違うリージョンになっている場合は、リージョンの一覧から「東京」を選択してください。&lt;/p&gt;
+&lt;p&gt;&lt;img src="../images/20-getting-started/select-region.png" alt="select region"&gt;&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;リージョンとは&lt;/strong&gt;: AWS のデータセンターがある地域のことです。このワークショップでは、すべてのリソースを東京リージョン（&lt;code&gt;ap-northeast-1&lt;/code&gt;）に作ります。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;続いて、GitHub Codespaces のターミナルで次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws login --remote
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;ターミナルに初めて貼り付けをするとき、ブラウザからクリップボードへのアクセスの許可を求められることがあります。その場合は &lt;code&gt;Allow&lt;/code&gt; を押してください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;リージョンを聞かれたら &lt;code&gt;ap-northeast-1&lt;/code&gt; を入力します。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;AWS Region [us-east-1]: ap-northeast-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ターミナルに URL が表示されるので、コピーしてブラウザに貼り付けて開きます。&lt;/p&gt;
+&lt;p&gt;ブラウザに表示された &lt;code&gt;検証コードをコピー&lt;/code&gt; ボタンでコードをコピーし、ターミナルに貼り付けてログインを完了します。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;aws login&lt;/code&gt; とは&lt;/strong&gt;: ブラウザで AWS にサインインしたときの権限を、ターミナルのコマンド（AWS CLI や CDK、cdkd）でも使えるようにするコマンドです。アクセスキーを発行して貼り付ける必要がなく、安全にログインできます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="確認"&gt;確認&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws sts get-caller-identity
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ログインしている AWS アカウントの ID（&lt;code&gt;Account&lt;/code&gt;）が表示されれば完了です。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;UserId&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;...&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;Account&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;123456789012&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;Arn&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;arn:aws:...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices tip" &gt;&lt;p&gt;&lt;code&gt;aws login&lt;/code&gt; でエラーになった場合や、会社の AWS アカウントで IAM Identity Center（AWS SSO）を使ってサインインしている場合は、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html"&gt;「aws login」でエラーになる&lt;/a&gt;
+を確認してください。&lt;/p&gt;</description></item><item><title>cdkd をインストールする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;cdkd は npm のパッケージとして公開されています。次のコマンドで、Codespace に cdkd をインストールします。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm i -g @go-to-k/cdkd@0.296.25
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;インストールには 1 分ほどかかります。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;npm i -g&lt;/code&gt; とは&lt;/strong&gt;: npm は Node.js のパッケージを管理するツールです。&lt;code&gt;-g&lt;/code&gt;（グローバル）を付けると、どのディレクトリからでも &lt;code&gt;cdkd&lt;/code&gt; というコマンドで使えるようにインストールされます。&lt;code&gt;@0.296.25&lt;/code&gt; の部分は、インストールするバージョンを指定しています。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="確認"&gt;確認&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;インストールしたバージョンが表示されれば完了です。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;0.296.25
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;CDK の CLI（&lt;code&gt;cdk&lt;/code&gt; コマンド）は、Codespace の起動時に &lt;code&gt;code&lt;/code&gt; ディレクトリのパッケージとしてインストール済みです。こちらは &lt;code&gt;npx cdk&lt;/code&gt; のように &lt;code&gt;npx&lt;/code&gt; を付けて実行します。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>bootstrap</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/300-bootstrap.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/300-bootstrap.html</guid><description>&lt;p&gt;CDK も cdkd も、デプロイする前に AWS アカウントの準備（bootstrap）が必要です。どちらも、1 つの AWS アカウントとリージョンにつき 1 回だけ行います。&lt;/p&gt;
+&lt;h2 id="cdk-の-bootstrap"&gt;CDK の bootstrap&lt;/h2&gt;
+&lt;p&gt;CDK は、Lambda 関数のコードや CloudFormation テンプレートを S3 バケットにアップロードしてからデプロイします。&lt;code&gt;cdk bootstrap&lt;/code&gt; は、そのための S3 バケットやデプロイ用の IAM ロールを、&lt;code&gt;CDKToolkit&lt;/code&gt; という CloudFormation スタックとして作ります。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;code/cdk&lt;/code&gt; ディレクトリに移動して、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk bootstrap
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;cdk deploy&lt;/code&gt; と &lt;code&gt;cdk deploy --express&lt;/code&gt; は、同じ &lt;code&gt;CDKToolkit&lt;/code&gt; を使います。&lt;code&gt;code/express&lt;/code&gt; ディレクトリで bootstrap し直す必要はありません。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="cdkd-の-bootstrap"&gt;cdkd の bootstrap&lt;/h2&gt;
+&lt;p&gt;cdkd は CloudFormation を使わないので、&lt;code&gt;CDKToolkit&lt;/code&gt; スタックの代わりに、自分で使う S3 バケットを作ります。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;バケット&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdkd-state-&amp;lt;アカウント ID&amp;gt;&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;どのスタックでどのリソースを作ったかという状態（state）を保存する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdkd-assets-&amp;lt;アカウント ID&amp;gt;-&amp;lt;リージョン&amp;gt;&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;Lambda 関数のコードなどをアップロードする&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;続けて、次のコマンドを実行します。&lt;/p&gt;</description></item></channel></rss>

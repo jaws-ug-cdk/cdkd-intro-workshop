@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>はじめに on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/index.html</link><description>Recent content in はじめに on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/index.xml" rel="self" type="application/rss+xml"/><item><title>はじめる前に</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/100-before-you-start.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/100-before-you-start.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;このワークショップでは &lt;a href="https://github.co.jp/features/codespaces" target="_blank" rel="noopener noreferrer"&gt;GitHub Codespaces&lt;/a&gt;
+ を使って進めます。起動に数分かかるので、最初に立ち上げておきましょう。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;GitHub Codespaces とは&lt;/strong&gt;: ブラウザの中で使える開発環境です。VS Code と同じ画面で、ファイルの編集やターミナルでのコマンド実行ができます。自分のパソコンに何もインストールしなくても、ワークショップに必要なツールがそろった環境がすぐに使えます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="1-github-codespaces-を起動する"&gt;1. GitHub Codespaces を起動する&lt;/h3&gt;
+&lt;p&gt;以下のリンクを開きます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/jaws-ug-cdk/cdkd-intro-workshop" target="_blank" rel="noopener noreferrer"&gt;https://github.com/jaws-ug-cdk/cdkd-intro-workshop&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Code&lt;/code&gt; ボタンから &lt;code&gt;Codespaces&lt;/code&gt; タブを開き、&lt;code&gt;Create codespace on main&lt;/code&gt; ボタンを押します。&lt;/p&gt;
+&lt;p&gt;画面が切り替わり、Codespace の作成が始まります。起動を待っている間に、次のページを読み進めてください。&lt;/p&gt;
+&lt;p&gt;画面下部に &lt;code&gt;TERMINAL&lt;/code&gt; パネルが表示され、ターミナルに次のようなプロンプトが出たら起動完了です。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;@&amp;lt;GitHub のユーザー名&amp;gt; ➜ /workspaces/cdkd-intro-workshop (main) $
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以降の手順では、このターミナルにコマンドを入力していきます。&lt;/p&gt;
+
+&lt;div class="notices note" &gt;&lt;p&gt;起動のときに、ワークショップで使う Node.js と AWS CLI のインストール、CDK のコードが使うパッケージのインストール（&lt;code&gt;npm ci&lt;/code&gt;）まで自動で行われます。&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="notices warning" &gt;&lt;p&gt;&lt;strong&gt;GitHub Codespaces の利用料について&lt;/strong&gt;: 個人の GitHub アカウントには、毎月の無料枠（Free プランで 120 コア時間、ストレージ 15 GB）があります。このワークショップで使う範囲は無料枠に収まりますが、Codespace は残っている間ストレージを消費し続けます。ワークショップが終わったら、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/index.html"&gt;後片付け&lt;/a&gt;
+の手順で Codespace を削除してください。&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="notices tip" &gt;&lt;p&gt;コマンドが動かなくなった場合は、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/index.html"&gt;トラブルシューティング&lt;/a&gt;
+を確認してください。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>今回のアーキテクチャ</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/200-architecture.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/200-architecture.html</guid><description>&lt;p&gt;このワークショップでは、アイテムを登録・取得できるシンプルな API を作ります。&lt;/p&gt;
+
+&lt;div class="mermaid" align="left"&gt;
+flowchart LR
+ user([あなた&lt;br/&gt;curl]) --&gt;|HTTP| api[API Gateway&lt;br/&gt;HTTP API]
+ api --&gt; fn[Lambda 関数]
+ fn --&gt;|読み書き| table[(DynamoDB&lt;br/&gt;テーブル)]
+&lt;/div&gt;
+
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;リソース&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;API Gateway（HTTP API）&lt;/td&gt;
+					&lt;td&gt;インターネットからのリクエストを受け付ける入り口&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Lambda 関数&lt;/td&gt;
+					&lt;td&gt;リクエストを処理するプログラム。サーバーを用意しなくても動く&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;DynamoDB テーブル&lt;/td&gt;
+					&lt;td&gt;アイテムを保存するデータベース&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;API には次のルート（URL とメソッドの組み合わせ）があります。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ルート&lt;/th&gt;
+					&lt;th&gt;動き&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;GET /items&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;登録されているアイテムを一覧で返す&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;POST /items&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;アイテムを登録する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;GET /items/{id}&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;指定した ID のアイテムを 1 件返す（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.html"&gt;更新の体験&lt;/a&gt;
+で追加する）&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="同じ構成を-3-つデプロイする"&gt;同じ構成を 3 つデプロイする&lt;/h2&gt;
+&lt;p&gt;この構成を、3 つの方法で 1 つずつ、合わせて 3 セットデプロイします。中身はまったく同じで、スタックの名前とデプロイの方法だけが違います。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;スタック名&lt;/th&gt;
+					&lt;th&gt;デプロイの方法&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkExpressStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy --express&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkdStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdkd deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;スタックとは&lt;/strong&gt;: CDK では、一緒にデプロイするリソースのまとまりを「スタック」と呼びます。デプロイ、更新、削除はスタック単位で行います。&lt;/p&gt;</description></item><item><title>3 つのデプロイ方法</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/300-deploy-methods.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/300-deploy-methods.html</guid><description>&lt;p&gt;このワークショップで比べるデプロイ方法を、簡単に紹介します。cdkd の詳しい仕組みは、ワークショップの冒頭のスライドで説明します。&lt;/p&gt;
+&lt;h2 id="cdk-deploy通常の-cdk"&gt;cdk deploy（通常の CDK）&lt;/h2&gt;
+&lt;p&gt;AWS CDK は、TypeScript などのプログラミング言語でインフラを定義できるツールです。
+&lt;code&gt;cdk deploy&lt;/code&gt; を実行すると、CDK はコードを &lt;strong&gt;CloudFormation テンプレート&lt;/strong&gt;（インフラの設計図）に変換し、AWS CloudFormation にデプロイを依頼します。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;CloudFormation テンプレートの形式&lt;/strong&gt;: CloudFormation のテンプレートは、JSON と YAML のどちらでも書けます。手で書くときは読みやすい YAML がよく使われますが、CDK は JSON で出力します（&lt;code&gt;cdk.out/CdkStack.template.json&lt;/code&gt; など）。&lt;code&gt;cdk synth&lt;/code&gt; を実行したときに画面に表示されるのは、読みやすいように YAML に変換したものです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CloudFormation は、テンプレートのとおりにリソースを作り、すべてのリソースが使える状態になるまで確かめてから完了します。途中で失敗したら、元の状態に戻してくれます（ロールバック）。安全な代わりに、待ち時間が長くなりがちです。&lt;/p&gt;
+&lt;h2 id="cdk-deploy-expressexpress-モード"&gt;cdk deploy &amp;ndash;express（Express モード）&lt;/h2&gt;
+&lt;p&gt;CloudFormation の &lt;strong&gt;Express モード&lt;/strong&gt;を使ったデプロイです。CDK のコードやテンプレートは通常の CDK と同じです。&lt;/p&gt;
+&lt;p&gt;Express モードでは、リソースの作成を AWS に依頼したところで、使える状態になるのを待たずに完了します。そのぶん速くなりますが、完了した直後はまだ準備中のリソースが残っていることがあります。また、失敗したときのロールバックは既定では行われません。&lt;/p&gt;
+&lt;h2 id="cdk-deploy-hotswapホットスワップ"&gt;cdk deploy &amp;ndash;hotswap（ホットスワップ）&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.html"&gt;更新の体験&lt;/a&gt;
+で使います。Lambda 関数のコードなど、一部の変更だけを CloudFormation を通さずに直接書き換える、開発用のデプロイ方法です。とても速いですが、インフラの構成の変更（API のルートの追加など）には使えません。&lt;/p&gt;
+&lt;h2 id="cdkd-deploy"&gt;cdkd deploy&lt;/h2&gt;
+&lt;p&gt;cdkd は、&lt;strong&gt;CloudFormation を使わずに&lt;/strong&gt; AWS の API を直接呼んでリソースを作るツールです。今ある CDK のコードを書き換えずに、そのまま使えます。&lt;/p&gt;</description></item><item><title>コードの構成</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/400-code.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/400-code.html</guid><description>&lt;p&gt;ワークショップで使う CDK のコードは、リポジトリの &lt;code&gt;code&lt;/code&gt; ディレクトリにあります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;code/
+├── lambda/items.js # 3 つのアプリで共通の Lambda 関数のコード
+├── cdk/ # cdk deploy → CdkStack
+│ ├── bin/cdk.ts
+│ ├── lib/items-api-stack.ts
+│ └── cdk.json
+├── express/ # cdk deploy --express → CdkExpressStack
+│ ├── bin/express.ts
+│ ├── lib/items-api-stack.ts
+│ └── cdk.json
+└── cdkd/ # cdkd deploy → CdkdStack
+ ├── bin/cdkd.ts
+ ├── lib/items-api-stack.ts
+ └── cdk.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;デプロイの方法ごとにディレクトリを分けています。3 つのターミナルからそれぞれのディレクトリでコマンドを実行すると、3 つのデプロイを同時に走らせられます。&lt;/p&gt;
+&lt;p&gt;どのディレクトリも、中身は同じ形をしています。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ファイル&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdk.json&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;CDK アプリの設定ファイル。&lt;code&gt;cdk&lt;/code&gt; や &lt;code&gt;cdkd&lt;/code&gt; のコマンドは、このファイルがあるディレクトリで実行する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;bin/*.ts&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;CDK アプリの入り口。どの名前でスタックを作るかを書く&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;lib/items-api-stack.ts&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;スタックの中身。どんなリソースを作るかを書く&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="スタックのコードを見てみよう"&gt;スタックのコードを見てみよう&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/cdk/lib/items-api-stack.ts&lt;/code&gt; を開きます。ターミナルで次のコマンドを実行します。&lt;/p&gt;</description></item></channel></rss>

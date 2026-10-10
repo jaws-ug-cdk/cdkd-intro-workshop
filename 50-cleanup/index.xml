@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>削除の体験と後片付け on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/index.html</link><description>Recent content in 削除の体験と後片付け on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/index.xml" rel="self" type="application/rss+xml"/><item><title>3 つ同時に削除する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/100-destroy.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/100-destroy.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk destroy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk destroy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd destroy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;削除のコマンドでも &lt;code&gt;--yes&lt;/code&gt; を付けると、「本当に削除してよいか」の確認に自動で「はい」と答えます。普段の開発では、間違えて削除しないように &lt;code&gt;--yes&lt;/code&gt; を付けずに実行して、確認画面でスタック名を確かめるのがおすすめです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdk destroy --express&lt;/code&gt; は、デプロイのときと同じく、削除しきるのを待たずに完了します。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;✅ CdkExpressStack: destroyed
+⚠️ Stack deleted using Express Mode. Resources still tearing down: ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;cdkd destroy&lt;/code&gt; は、削除するリソースの一覧を表示してから、依存関係の順番に削除していきます。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Resources to be deleted (14):
+ - ItemsHandlerLogGroupC31B979E (AWS::Logs::LogGroup)
+ ...
+ ✓ ItemsApiGETitems9DF0F922 (AWS::ApiGatewayV2::Route) deleted
+ ...
+✓ Stack CdkdStack destroyed (14 deleted, 0 errors)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;時間を比べたい場合は、コマンドの前に &lt;code&gt;time&lt;/code&gt; を付けて実行しましょう（例: &lt;code&gt;time cdkd destroy --yes&lt;/code&gt;）。&lt;/p&gt;</description></item><item><title>Codespace を削除する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/200-codespaces.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/200-codespaces.html</guid><description>&lt;p&gt;ワークショップが終わったら、Codespace を削除します。Codespace は停止していてもストレージの利用料（無料枠）を消費し続けるためです。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+
+&lt;div class="notices warning" &gt;&lt;p&gt;Codespace を削除すると、Codespace の中で変更したファイルも消えます。残しておきたいものがあれば、先に手元にコピーしてください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://github.com/codespaces" target="_blank" rel="noopener noreferrer"&gt;https://github.com/codespaces&lt;/a&gt;
+ を開きます。&lt;/li&gt;
+&lt;li&gt;一覧から、このワークショップで作った Codespace（リポジトリ名が &lt;code&gt;jaws-ug-cdk/cdkd-intro-workshop&lt;/code&gt; のもの）を探します。&lt;/li&gt;
+&lt;li&gt;右側の &lt;code&gt;…&lt;/code&gt; ボタンを押し、&lt;code&gt;Delete&lt;/code&gt; を選びます。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一覧から消えれば、削除は完了です。&lt;/p&gt;
+&lt;h2 id="任意bootstrap-で作ったものを削除する"&gt;（任意）bootstrap で作ったものを削除する&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdk bootstrap&lt;/code&gt; で作った &lt;code&gt;CDKToolkit&lt;/code&gt; スタックと、&lt;code&gt;cdkd bootstrap&lt;/code&gt; で作った S3 バケットは、置いておくだけならほとんど料金はかかりません。また CDK や cdkd を使うなら、残しておいてかまいません。&lt;/p&gt;
+&lt;p&gt;完全に片付けたい場合は、次のように削除します。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CDKToolkit&lt;/code&gt;: CloudFormation のページでスタックを選び、&lt;code&gt;削除&lt;/code&gt; を押します。中の S3 バケット（&lt;code&gt;cdk-&lt;/code&gt; で始まるもの）は、空にしてから削除する必要があります。&lt;/li&gt;
+&lt;li&gt;cdkd の S3 バケット: S3 のページで、&lt;code&gt;cdkd-state-&lt;/code&gt; と &lt;code&gt;cdkd-assets-&lt;/code&gt; で始まるバケットを、それぞれ空にしてから削除します。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="notices warning" &gt;&lt;p&gt;同じ AWS アカウントで、ほかにも CDK や cdkd でデプロイしているスタックがある場合は、削除しないでください。デプロイや削除ができなくなります。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;お疲れさまでした！&lt;/p&gt;</description></item></channel></rss>

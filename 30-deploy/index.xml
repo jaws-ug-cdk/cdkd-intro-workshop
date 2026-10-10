@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>デプロイの体験 on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/index.html</link><description>Recent content in デプロイの体験 on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/index.xml" rel="self" type="application/rss+xml"/><item><title>ターミナルを 3 つ用意する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/100-open-terminals.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/100-open-terminals.html</guid><description>&lt;p&gt;3 つのデプロイを同時に走らせるため、ターミナルを 3 つ用意します。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;h3 id="1-ターミナルを分割する"&gt;1. ターミナルを分割する&lt;/h3&gt;
+&lt;p&gt;ターミナルパネルの右上にある &lt;code&gt;Split Terminal&lt;/code&gt;（四角が縦に 2 つに分かれたアイコン）を 2 回押して、ターミナルを横に 3 つ並べます。&lt;/p&gt;
+
+&lt;div class="notices tip" &gt;&lt;p&gt;アイコンが見つからない場合は、ターミナルを選んだ状態で &lt;code&gt;Ctrl + Shift + 5&lt;/code&gt;（Mac は &lt;code&gt;Cmd + \&lt;/code&gt;）を押しても分割できます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="2-それぞれのディレクトリに移動する"&gt;2. それぞれのディレクトリに移動する&lt;/h3&gt;
+&lt;p&gt;左のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/express&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdkd&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以降の手順では、ターミナルを次のように呼びます。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ターミナル&lt;/th&gt;
+					&lt;th&gt;ディレクトリ&lt;/th&gt;
+					&lt;th&gt;デプロイの方法&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;左&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/cdk&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;真ん中&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/express&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy --express&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;右&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/cdkd&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdkd deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;cdk&lt;/code&gt; や &lt;code&gt;cdkd&lt;/code&gt; のコマンドは、&lt;code&gt;cdk.json&lt;/code&gt; があるディレクトリで実行する必要があります。違うディレクトリで実行するとエラーになるので、注意してください（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html"&gt;「&amp;ndash;app is required」エラー&lt;/a&gt;
+）。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>3 つ同時にデプロイする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/200-deploy.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/200-deploy.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルに、それぞれ次のコマンドを入力します。&lt;strong&gt;Enter はまだ押さずに&lt;/strong&gt;、3 つとも入力し終わってから、なるべく同時に Enter を押してください。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;--yes&lt;/code&gt; とは&lt;/strong&gt;: CDK と cdkd は、IAM の権限を作ったり変えたりするデプロイや、スタックの削除の前に「続けてよいか」を確認してきます。&lt;code&gt;--yes&lt;/code&gt; を付けると、この確認に自動で「はい」と答えて進みます。CDK では比較的最近追加されたオプションです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;h3 id="cdk-deploy"&gt;cdk deploy&lt;/h3&gt;
+&lt;p&gt;CDK のコードが CloudFormation テンプレートに変換され、CloudFormation がデプロイしている間は &lt;code&gt;deploying...&lt;/code&gt; のまま待ちます。完了すると、かかった時間と、作られた API の URL（&lt;code&gt;ApiUrl&lt;/code&gt;）が表示されます。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;✅ CdkStack
+
+✨ Deployment time: 57.75s
+
+Outputs:
+CdkStack.ApiUrl = https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
+...
+✨ Total time: 68.35s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;デプロイの前に、IAM の権限の変更が表として表示されます。これは &lt;code&gt;--yes&lt;/code&gt; で自動的に承認されます（&lt;code&gt;(auto-confirmed)&lt;/code&gt; と表示されます）。&lt;code&gt;1 feature flags are not configured.&lt;/code&gt; というメッセージも表示されますが、ワークショップの進行には影響しないので無視してかまいません。&lt;/p&gt;</description></item><item><title>API を呼んでみる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/300-try-api.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/300-try-api.html</guid><description>&lt;p&gt;デプロイした API が動いているか、実際に呼んで確かめます。3 つのターミナルで、それぞれ自分のスタックの API を呼びます。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;h3 id="1-api-の-url-を変数に入れる"&gt;1. API の URL を変数に入れる&lt;/h3&gt;
+&lt;p&gt;各ターミナルで、デプロイの出力に表示された &lt;code&gt;ApiUrl&lt;/code&gt; の URL をコピーし、次のように &lt;code&gt;API_URL&lt;/code&gt; という変数に入れます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;API_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;https://xxxxxxxxxx...&lt;/code&gt; の部分は、自分の出力の URL に置き換えてください。3 つのスタックは URL が違うので、ターミナルごとに、そのターミナルの出力の URL を使います。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;変数とは&lt;/strong&gt;: &lt;code&gt;API_URL=...&lt;/code&gt; と入力すると、そのターミナルの中で &lt;code&gt;$API_URL&lt;/code&gt; と書いた部分が URL に置き換わるようになります。長い URL を何度も貼り付けなくて済みます。ターミナルを閉じると消えるので、閉じてしまった場合はもう一度設定してください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="2-アイテムを登録する"&gt;2. アイテムを登録する&lt;/h3&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;POST /items&lt;/code&gt; にアイテムを登録します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -X POST &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$API_URL&lt;span style="color:#e6db74"&gt;/items&amp;#34;&lt;/span&gt; -H &lt;span style="color:#e6db74"&gt;&amp;#39;Content-Type: application/json&amp;#39;&lt;/span&gt; -d &lt;span style="color:#e6db74"&gt;&amp;#39;{&amp;#34;name&amp;#34;: &amp;#34;cdkd&amp;#34;}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;curl とは&lt;/strong&gt;: ターミナルから HTTP のリクエストを送るコマンドです。&lt;code&gt;-X POST&lt;/code&gt; でメソッドを、&lt;code&gt;-H&lt;/code&gt; でヘッダーを、&lt;code&gt;-d&lt;/code&gt; で送るデータを指定しています。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;登録したアイテムが返ってきます。&lt;code&gt;id&lt;/code&gt; は自動で振られます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;0b3c...&amp;#34;&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;cdkd&amp;#34;&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;createdAt&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;2026-...&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-アイテムの一覧を取得する"&gt;3. アイテムの一覧を取得する&lt;/h3&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;GET /items&lt;/code&gt; からアイテムの一覧を取得します。&lt;/p&gt;</description></item></channel></rss>

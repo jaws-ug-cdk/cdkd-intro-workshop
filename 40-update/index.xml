@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>更新の体験 on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.html</link><description>Recent content in 更新の体験 on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.xml" rel="self" type="application/rss+xml"/><item><title>① Lambda 関数のコードを変える</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/100-update-lambda-code.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/100-update-lambda-code.html</guid><description>&lt;p&gt;アプリの開発でいちばんよくあるのは、Lambda 関数のコードだけを直してデプロイし直す、という更新です。&lt;/p&gt;
+&lt;p&gt;CDK では、このような変更のために &lt;code&gt;--hotswap&lt;/code&gt; という開発用のオプションが用意されています。左のターミナルでは、通常の &lt;code&gt;cdk deploy&lt;/code&gt; の代わりに &lt;code&gt;cdk deploy --hotswap&lt;/code&gt; を使います。&lt;/p&gt;
+&lt;h2 id="lambda-関数のコードを変更する"&gt;Lambda 関数のコードを変更する&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/lambda/items.js&lt;/code&gt; を開きます。ターミナルで次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;code &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/lambda/items.js&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;message&lt;/code&gt; の文字列を、好きなものに書き換えます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;display:grid;"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// [更新体験 ①] message の文字列を好きなものに書き換える
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;message&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;Hello from cdkd workshop!&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;code/lambda/items.js&lt;/code&gt; は 3 つのアプリで共通のファイルです。1 か所を書き換えるだけで、3 つのスタックすべてに反映されます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="3-つ同時にデプロイする"&gt;3 つ同時にデプロイする&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --hotswap --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;h3 id="cdk-deploy-hotswap"&gt;cdk deploy &amp;ndash;hotswap&lt;/h3&gt;
+&lt;p&gt;CloudFormation を通さずに、Lambda 関数のコードを直接書き換えています（&lt;code&gt;hotswapped!&lt;/code&gt;）。&lt;/p&gt;</description></item><item><title>② API にルートを追加する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/200-add-route.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/200-add-route.html</guid><description>&lt;p&gt;次は、インフラの構成を変える更新です。API に &lt;code&gt;GET /items/{id}&lt;/code&gt;（ID を指定してアイテムを 1 件取得する）ルートを追加します。&lt;/p&gt;
+&lt;p&gt;hotswap は Lambda 関数のコードなど一部の変更にしか使えないため、左のターミナルでは通常の &lt;code&gt;cdk deploy&lt;/code&gt; に戻します。&lt;/p&gt;
+&lt;h2 id="スタックを変更する"&gt;スタックを変更する&lt;/h2&gt;
+&lt;p&gt;3 つのスタックのコードを、それぞれ同じように変更します。まず &lt;code&gt;code/cdk/lib/items-api-stack.ts&lt;/code&gt; を開きます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;code &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk/lib/items-api-stack.ts&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;[更新体験 ②]&lt;/code&gt; と書かれたコメントの下の 5 行の、先頭の &lt;code&gt;// &lt;/code&gt; を消してコメントを外します。&lt;/p&gt;
+&lt;p&gt;変更前:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// [更新体験 ②] 下の 5 行のコメントを外して GET /items/{id} を追加する
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// api.addRoutes({
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// path: &amp;#39;/items/{id}&amp;#39;,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// methods: [apigwv2.HttpMethod.GET],
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// integration,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// });
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;変更後:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;display:grid;"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// [更新体験 ②] 下の 5 行のコメントを外して GET /items/{id} を追加する
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;api&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;addRoutes&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;/items/{id}&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;methods&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; [&lt;span style="color:#a6e22e"&gt;apigwv2&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;HttpMethod&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GET&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;integration&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices tip" &gt;&lt;p&gt;5 行を選択して &lt;code&gt;Ctrl + /&lt;/code&gt;（Mac は &lt;code&gt;Cmd + /&lt;/code&gt;）を押すと、まとめてコメントを外せます。&lt;/p&gt;</description></item><item><title>振り返り</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/300-recap.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/300-recap.html</guid><description>&lt;p&gt;ここまでの結果を振り返ってみましょう。&lt;/p&gt;
+&lt;h2 id="実測の例"&gt;実測の例&lt;/h2&gt;
+&lt;p&gt;ワークショップの準備で計測した時間の例です（東京リージョン、3 つ同時に実行、CDK のコードの変換を含む）。みなさんの結果と比べてみてください。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;体験&lt;/th&gt;
+					&lt;th&gt;cdk deploy&lt;/th&gt;
+					&lt;th&gt;&amp;ndash;hotswap&lt;/th&gt;
+					&lt;th&gt;&amp;ndash;express&lt;/th&gt;
+					&lt;th&gt;cdkd deploy&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;初回のデプロイ&lt;/td&gt;
+					&lt;td&gt;約 70 秒&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 44 秒&lt;/td&gt;
+					&lt;td&gt;約 24 秒&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;① Lambda 関数のコード&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 8 秒&lt;/td&gt;
+					&lt;td&gt;約 34 秒&lt;/td&gt;
+					&lt;td&gt;約 16 秒&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;② ルートの追加&lt;/td&gt;
+					&lt;td&gt;約 37 秒&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 28 秒&lt;/td&gt;
+					&lt;td&gt;約 11 秒&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;時間はリージョンの混み具合などで変わります。&lt;/p&gt;
+&lt;h2 id="わかったこと"&gt;わかったこと&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;初回のデプロイでは、Express モードも cdkd も、通常の &lt;code&gt;cdk deploy&lt;/code&gt; より速くなります。&lt;/li&gt;
+&lt;li&gt;Lambda 関数のコードだけの変更なら、hotswap がとても速いです。ただし、hotswap はルートの追加のようなインフラの変更には使えません。&lt;/li&gt;
+&lt;li&gt;cdkd は、&lt;strong&gt;変更の種類を気にせず、いつも同じ &lt;code&gt;cdkd deploy&lt;/code&gt; で&lt;/strong&gt;速くデプロイできます。「この変更なら hotswap、この変更なら通常のデプロイ」と使い分ける必要がありません。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;次の章では、作ったスタックを削除します。&lt;/p&gt;</description></item></channel></rss>

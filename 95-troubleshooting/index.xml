@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>トラブルシューティング on cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/index.html</link><description>Recent content in トラブルシューティング on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/index.xml" rel="self" type="application/rss+xml"/><item><title>「aws login」でエラーになる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html</guid><description>&lt;h2 id="症状-1-権限が足りないと言われる"&gt;症状 1: 権限が足りないと言われる&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;aws login --remote&lt;/code&gt; で検証コードを貼り付けたあと、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;aws: [ERROR]: Unable to create or refresh login credentials due to insufficient permissions. You may be missing permission for the &amp;#39;signin:CreateOAuth2Token&amp;#39; action.
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="対処法"&gt;対処法&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;aws login&lt;/code&gt; を使うには、サインインしている IAM ユーザーやロールに、ログイン用の権限が必要です。AWS アカウントの管理者に、AWS 管理ポリシー &lt;code&gt;SignInLocalDevelopmentAccess&lt;/code&gt; をアタッチしてもらってください。&lt;/p&gt;
+&lt;p&gt;ルートユーザー（AWS アカウントを作ったときのメールアドレス）でサインインしている場合は、この権限は不要です。&lt;/p&gt;
+&lt;h2 id="症状-2-iam-identity-centeraws-ssoでサインインしている"&gt;症状 2: IAM Identity Center（AWS SSO）でサインインしている&lt;/h2&gt;
+&lt;p&gt;会社の AWS アカウントなどで、AWS アクセスポータル（&lt;code&gt;https://xxxx.awsapps.com/start&lt;/code&gt; のような URL）からサインインしている場合、&lt;code&gt;aws login&lt;/code&gt; は使えません。代わりに次の手順でログインします。&lt;/p&gt;
+&lt;h3 id="対処法-1"&gt;対処法&lt;/h3&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws configure sso --use-device-code
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;質問に順番に答えます。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;質問&lt;/th&gt;
+					&lt;th&gt;入力する値&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO session name&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;好きな名前（例: &lt;code&gt;workshop&lt;/code&gt;）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO start URL&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;AWS アクセスポータルの URL（&lt;code&gt;https://xxxx.awsapps.com/start&lt;/code&gt;）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO region&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;IAM Identity Center のリージョン（わからなければ管理者に確認）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO registration scopes&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;何も入力せずに Enter&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;URL とコードが表示されるので、ブラウザで URL を開いてコードを確認し、アクセスを許可します。&lt;/p&gt;</description></item><item><title>「Unable to resolve AWS account」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/200-aws-session.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/200-aws-session.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;しばらく操作せずにいると、AWS へのログインのセッションが切れることがあります。その状態で &lt;code&gt;cdk deploy&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt; を実行すると、次のような認証のエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Unable to resolve AWS account to use. It must be either configured when you define your CDK Stack, or through the environment
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行して、もう一度ログインします。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws login --remote
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとは &lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html"&gt;AWS にログインする&lt;/a&gt;
+の手順と同じです。&lt;/p&gt;
+&lt;p&gt;IAM Identity Center（AWS SSO）でログインしている場合は、&lt;code&gt;aws sso login --use-device-code&lt;/code&gt; を実行します（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html"&gt;「aws login」でエラーになる&lt;/a&gt;
+を参照）。&lt;/p&gt;</description></item><item><title>「--app is required」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/cdk&lt;/code&gt; などのディレクトリではなく、リポジトリのルートなど別の場所で &lt;code&gt;npx cdk deploy&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt; を実行すると、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;--app is required either in command-line, in cdk.json or in ~/.cdk.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;これは、CDK アプリの設定ファイル &lt;code&gt;cdk.json&lt;/code&gt; が、&lt;code&gt;code/cdk&lt;/code&gt;、&lt;code&gt;code/express&lt;/code&gt;、&lt;code&gt;code/cdkd&lt;/code&gt; の各ディレクトリの中にしかないためです。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;ターミナルに合ったディレクトリに移動してから、もう一度実行してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 左のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/express&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 真ん中のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdkd&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 右のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;今いるディレクトリは、プロンプトの &lt;code&gt;➜&lt;/code&gt; の右側か、&lt;code&gt;pwd&lt;/code&gt; コマンドで確認できます。&lt;/p&gt;</description></item><item><title>「cdkd: command not found」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/400-cdkd-not-found.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/400-cdkd-not-found.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdkd&lt;/code&gt; のコマンドを実行すると、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;bash: cdkd: command not found
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;cdkd がインストールされていません。&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html"&gt;cdkd をインストールする&lt;/a&gt;
+の手順でインストールしてください。&lt;/p&gt;
+&lt;p&gt;Codespace を作り直した場合も、cdkd をもう一度インストールする必要があります。&lt;/p&gt;</description></item><item><title>cdkd のスタックが東京リージョンに見当たらない</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/500-wrong-region.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/500-wrong-region.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdkd deploy&lt;/code&gt; は成功したのに、AWS マネジメントコンソールの東京リージョンで、Lambda 関数や DynamoDB テーブルが見当たりません。&lt;code&gt;ApiUrl&lt;/code&gt; の URL に &lt;code&gt;us-east-1&lt;/code&gt; が含まれています。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;CdkdStack.ApiUrl = https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;cdkd は、&lt;code&gt;aws login&lt;/code&gt; で設定したリージョンを読まず、環境変数 &lt;code&gt;AWS_REGION&lt;/code&gt; が設定されていないとバージニア北部リージョン（&lt;code&gt;us-east-1&lt;/code&gt;）にデプロイします（&lt;a href="https://github.com/go-to-k/cdkd/issues/2100" target="_blank" rel="noopener noreferrer"&gt;go-to-k/cdkd#2100&lt;/a&gt;
+）。&lt;/p&gt;
+&lt;p&gt;このワークショップの Codespace では、起動時に &lt;code&gt;AWS_REGION=ap-northeast-1&lt;/code&gt; を設定しているので、通常はこの問題は起きません。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;AWS_REGION&lt;/code&gt; が設定されているか確認します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo $AWS_REGION
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;何も表示されない場合は、次のコマンドで設定します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;export AWS_REGION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;us-east-1&lt;/code&gt; にデプロイしてしまったスタックは、右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）で次のコマンドを実行して削除してから、デプロイし直してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd destroy --region us-east-1 --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>会社の AWS アカウントで AccessDenied になる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/600-access-denied.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/600-access-denied.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;ログインはできているのに、&lt;code&gt;cdkd bootstrap&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt;、&lt;code&gt;cdk deploy&lt;/code&gt; で &lt;code&gt;AccessDenied&lt;/code&gt; や &lt;code&gt;403 Forbidden&lt;/code&gt; のエラーになります。&lt;/p&gt;
+&lt;h2 id="原因"&gt;原因&lt;/h2&gt;
+&lt;p&gt;会社などの組織で管理されている AWS アカウントでは、組織のルールで次のような制限がかかっていることがあります。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;決められたネットワーク（社内ネットワークなど）以外からの操作を禁止している&lt;/li&gt;
+&lt;li&gt;S3 バケットや IAM ロールの作成など、特定の操作を禁止している&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Codespaces は GitHub のクラウド上で動いているので、社内ネットワークからの操作とはみなされません。手元のパソコンでは使える AWS アカウントでも、Codespaces からはエラーになることがあります。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;組織の制限は、ワークショップの中では解除できません。個人で作った AWS アカウントを使ってください（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.html"&gt;事前準備&lt;/a&gt;
+を参照）。&lt;/p&gt;</description></item></channel></rss>

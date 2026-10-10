@@ -1,1 +1,554 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.html</link><description>Recent content on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cdkd Intro Workshop</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.html</link><description>Recent content on cdkd Intro Workshop</description><generator>Hugo</generator><language>ja</language><atom:link href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.xml" rel="self" type="application/rss+xml"/><item><title>「aws login」でエラーになる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html</guid><description>&lt;h2 id="症状-1-権限が足りないと言われる"&gt;症状 1: 権限が足りないと言われる&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;aws login --remote&lt;/code&gt; で検証コードを貼り付けたあと、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;aws: [ERROR]: Unable to create or refresh login credentials due to insufficient permissions. You may be missing permission for the &amp;#39;signin:CreateOAuth2Token&amp;#39; action.
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="対処法"&gt;対処法&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;aws login&lt;/code&gt; を使うには、サインインしている IAM ユーザーやロールに、ログイン用の権限が必要です。AWS アカウントの管理者に、AWS 管理ポリシー &lt;code&gt;SignInLocalDevelopmentAccess&lt;/code&gt; をアタッチしてもらってください。&lt;/p&gt;
+&lt;p&gt;ルートユーザー（AWS アカウントを作ったときのメールアドレス）でサインインしている場合は、この権限は不要です。&lt;/p&gt;
+&lt;h2 id="症状-2-iam-identity-centeraws-ssoでサインインしている"&gt;症状 2: IAM Identity Center（AWS SSO）でサインインしている&lt;/h2&gt;
+&lt;p&gt;会社の AWS アカウントなどで、AWS アクセスポータル（&lt;code&gt;https://xxxx.awsapps.com/start&lt;/code&gt; のような URL）からサインインしている場合、&lt;code&gt;aws login&lt;/code&gt; は使えません。代わりに次の手順でログインします。&lt;/p&gt;
+&lt;h3 id="対処法-1"&gt;対処法&lt;/h3&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws configure sso --use-device-code
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;質問に順番に答えます。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;質問&lt;/th&gt;
+					&lt;th&gt;入力する値&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO session name&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;好きな名前（例: &lt;code&gt;workshop&lt;/code&gt;）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO start URL&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;AWS アクセスポータルの URL（&lt;code&gt;https://xxxx.awsapps.com/start&lt;/code&gt;）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO region&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;IAM Identity Center のリージョン（わからなければ管理者に確認）&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;SSO registration scopes&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;何も入力せずに Enter&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;URL とコードが表示されるので、ブラウザで URL を開いてコードを確認し、アクセスを許可します。&lt;/p&gt;</description></item><item><title>① Lambda 関数のコードを変える</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/100-update-lambda-code.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/100-update-lambda-code.html</guid><description>&lt;p&gt;アプリの開発でいちばんよくあるのは、Lambda 関数のコードだけを直してデプロイし直す、という更新です。&lt;/p&gt;
+&lt;p&gt;CDK では、このような変更のために &lt;code&gt;--hotswap&lt;/code&gt; という開発用のオプションが用意されています。左のターミナルでは、通常の &lt;code&gt;cdk deploy&lt;/code&gt; の代わりに &lt;code&gt;cdk deploy --hotswap&lt;/code&gt; を使います。&lt;/p&gt;
+&lt;h2 id="lambda-関数のコードを変更する"&gt;Lambda 関数のコードを変更する&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/lambda/items.js&lt;/code&gt; を開きます。ターミナルで次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;code &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/lambda/items.js&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;message&lt;/code&gt; の文字列を、好きなものに書き換えます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;display:grid;"&gt;&lt;code class="language-javascript" data-lang="javascript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// [更新体験 ①] message の文字列を好きなものに書き換える
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;message&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;Hello from cdkd workshop!&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;code/lambda/items.js&lt;/code&gt; は 3 つのアプリで共通のファイルです。1 か所を書き換えるだけで、3 つのスタックすべてに反映されます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="3-つ同時にデプロイする"&gt;3 つ同時にデプロイする&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --hotswap --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;h3 id="cdk-deploy-hotswap"&gt;cdk deploy &amp;ndash;hotswap&lt;/h3&gt;
+&lt;p&gt;CloudFormation を通さずに、Lambda 関数のコードを直接書き換えています（&lt;code&gt;hotswapped!&lt;/code&gt;）。&lt;/p&gt;</description></item><item><title>3 つ同時に削除する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/100-destroy.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/100-destroy.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk destroy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk destroy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd destroy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;削除のコマンドでも &lt;code&gt;--yes&lt;/code&gt; を付けると、「本当に削除してよいか」の確認に自動で「はい」と答えます。普段の開発では、間違えて削除しないように &lt;code&gt;--yes&lt;/code&gt; を付けずに実行して、確認画面でスタック名を確かめるのがおすすめです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdk destroy --express&lt;/code&gt; は、デプロイのときと同じく、削除しきるのを待たずに完了します。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;✅ CdkExpressStack: destroyed
+⚠️ Stack deleted using Express Mode. Resources still tearing down: ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;cdkd destroy&lt;/code&gt; は、削除するリソースの一覧を表示してから、依存関係の順番に削除していきます。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Resources to be deleted (14):
+ - ItemsHandlerLogGroupC31B979E (AWS::Logs::LogGroup)
+ ...
+ ✓ ItemsApiGETitems9DF0F922 (AWS::ApiGatewayV2::Route) deleted
+ ...
+✓ Stack CdkdStack destroyed (14 deleted, 0 errors)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;時間を比べたい場合は、コマンドの前に &lt;code&gt;time&lt;/code&gt; を付けて実行しましょう（例: &lt;code&gt;time cdkd destroy --yes&lt;/code&gt;）。&lt;/p&gt;</description></item><item><title>AWS にログインする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;ブラウザから AWS アカウントにサインインします。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://console.aws.amazon.com/" target="_blank" rel="noopener noreferrer"&gt;https://console.aws.amazon.com/&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;画面右上のリージョンが「東京」（&lt;code&gt;ap-northeast-1&lt;/code&gt;）になっていることを確認します。違うリージョンになっている場合は、リージョンの一覧から「東京」を選択してください。&lt;/p&gt;
+&lt;p&gt;&lt;img src="../images/20-getting-started/select-region.png" alt="select region"&gt;&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;リージョンとは&lt;/strong&gt;: AWS のデータセンターがある地域のことです。このワークショップでは、すべてのリソースを東京リージョン（&lt;code&gt;ap-northeast-1&lt;/code&gt;）に作ります。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;続いて、GitHub Codespaces のターミナルで次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws login --remote
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;ターミナルに初めて貼り付けをするとき、ブラウザからクリップボードへのアクセスの許可を求められることがあります。その場合は &lt;code&gt;Allow&lt;/code&gt; を押してください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;リージョンを聞かれたら &lt;code&gt;ap-northeast-1&lt;/code&gt; を入力します。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;AWS Region [us-east-1]: ap-northeast-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ターミナルに URL が表示されるので、コピーしてブラウザに貼り付けて開きます。&lt;/p&gt;
+&lt;p&gt;ブラウザに表示された &lt;code&gt;検証コードをコピー&lt;/code&gt; ボタンでコードをコピーし、ターミナルに貼り付けてログインを完了します。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;aws login&lt;/code&gt; とは&lt;/strong&gt;: ブラウザで AWS にサインインしたときの権限を、ターミナルのコマンド（AWS CLI や CDK、cdkd）でも使えるようにするコマンドです。アクセスキーを発行して貼り付ける必要がなく、安全にログインできます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="確認"&gt;確認&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws sts get-caller-identity
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ログインしている AWS アカウントの ID（&lt;code&gt;Account&lt;/code&gt;）が表示されれば完了です。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;UserId&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;...&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;Account&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;123456789012&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;Arn&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;arn:aws:...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices tip" &gt;&lt;p&gt;&lt;code&gt;aws login&lt;/code&gt; でエラーになった場合や、会社の AWS アカウントで IAM Identity Center（AWS SSO）を使ってサインインしている場合は、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html"&gt;「aws login」でエラーになる&lt;/a&gt;
+を確認してください。&lt;/p&gt;</description></item><item><title>ターミナルを 3 つ用意する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/100-open-terminals.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/100-open-terminals.html</guid><description>&lt;p&gt;3 つのデプロイを同時に走らせるため、ターミナルを 3 つ用意します。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;h3 id="1-ターミナルを分割する"&gt;1. ターミナルを分割する&lt;/h3&gt;
+&lt;p&gt;ターミナルパネルの右上にある &lt;code&gt;Split Terminal&lt;/code&gt;（四角が縦に 2 つに分かれたアイコン）を 2 回押して、ターミナルを横に 3 つ並べます。&lt;/p&gt;
+
+&lt;div class="notices tip" &gt;&lt;p&gt;アイコンが見つからない場合は、ターミナルを選んだ状態で &lt;code&gt;Ctrl + Shift + 5&lt;/code&gt;（Mac は &lt;code&gt;Cmd + \&lt;/code&gt;）を押しても分割できます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="2-それぞれのディレクトリに移動する"&gt;2. それぞれのディレクトリに移動する&lt;/h3&gt;
+&lt;p&gt;左のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/express&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナルで、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdkd&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以降の手順では、ターミナルを次のように呼びます。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ターミナル&lt;/th&gt;
+					&lt;th&gt;ディレクトリ&lt;/th&gt;
+					&lt;th&gt;デプロイの方法&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;左&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/cdk&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;真ん中&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/express&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy --express&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;右&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;code/cdkd&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdkd deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;cdk&lt;/code&gt; や &lt;code&gt;cdkd&lt;/code&gt; のコマンドは、&lt;code&gt;cdk.json&lt;/code&gt; があるディレクトリで実行する必要があります。違うディレクトリで実行するとエラーになるので、注意してください（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html"&gt;「&amp;ndash;app is required」エラー&lt;/a&gt;
+）。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>はじめる前に</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/100-before-you-start.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/100-before-you-start.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;このワークショップでは &lt;a href="https://github.co.jp/features/codespaces" target="_blank" rel="noopener noreferrer"&gt;GitHub Codespaces&lt;/a&gt;
+ を使って進めます。起動に数分かかるので、最初に立ち上げておきましょう。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;GitHub Codespaces とは&lt;/strong&gt;: ブラウザの中で使える開発環境です。VS Code と同じ画面で、ファイルの編集やターミナルでのコマンド実行ができます。自分のパソコンに何もインストールしなくても、ワークショップに必要なツールがそろった環境がすぐに使えます。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="1-github-codespaces-を起動する"&gt;1. GitHub Codespaces を起動する&lt;/h3&gt;
+&lt;p&gt;以下のリンクを開きます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/jaws-ug-cdk/cdkd-intro-workshop" target="_blank" rel="noopener noreferrer"&gt;https://github.com/jaws-ug-cdk/cdkd-intro-workshop&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Code&lt;/code&gt; ボタンから &lt;code&gt;Codespaces&lt;/code&gt; タブを開き、&lt;code&gt;Create codespace on main&lt;/code&gt; ボタンを押します。&lt;/p&gt;
+&lt;p&gt;画面が切り替わり、Codespace の作成が始まります。起動を待っている間に、次のページを読み進めてください。&lt;/p&gt;
+&lt;p&gt;画面下部に &lt;code&gt;TERMINAL&lt;/code&gt; パネルが表示され、ターミナルに次のようなプロンプトが出たら起動完了です。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;@&amp;lt;GitHub のユーザー名&amp;gt; ➜ /workspaces/cdkd-intro-workshop (main) $
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以降の手順では、このターミナルにコマンドを入力していきます。&lt;/p&gt;
+
+&lt;div class="notices note" &gt;&lt;p&gt;起動のときに、ワークショップで使う Node.js と AWS CLI のインストール、CDK のコードが使うパッケージのインストール（&lt;code&gt;npm ci&lt;/code&gt;）まで自動で行われます。&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="notices warning" &gt;&lt;p&gt;&lt;strong&gt;GitHub Codespaces の利用料について&lt;/strong&gt;: 個人の GitHub アカウントには、毎月の無料枠（Free プランで 120 コア時間、ストレージ 15 GB）があります。このワークショップで使う範囲は無料枠に収まりますが、Codespace は残っている間ストレージを消費し続けます。ワークショップが終わったら、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/index.html"&gt;後片付け&lt;/a&gt;
+の手順で Codespace を削除してください。&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="notices tip" &gt;&lt;p&gt;コマンドが動かなくなった場合は、&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/index.html"&gt;トラブルシューティング&lt;/a&gt;
+を確認してください。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>「Unable to resolve AWS account」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/200-aws-session.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/200-aws-session.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;しばらく操作せずにいると、AWS へのログインのセッションが切れることがあります。その状態で &lt;code&gt;cdk deploy&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt; を実行すると、次のような認証のエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;Unable to resolve AWS account to use. It must be either configured when you define your CDK Stack, or through the environment
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行して、もう一度ログインします。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aws login --remote
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとは &lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/100-aws-login.html"&gt;AWS にログインする&lt;/a&gt;
+の手順と同じです。&lt;/p&gt;
+&lt;p&gt;IAM Identity Center（AWS SSO）でログインしている場合は、&lt;code&gt;aws sso login --use-device-code&lt;/code&gt; を実行します（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/100-aws-login.html"&gt;「aws login」でエラーになる&lt;/a&gt;
+を参照）。&lt;/p&gt;</description></item><item><title>② API にルートを追加する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/200-add-route.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/200-add-route.html</guid><description>&lt;p&gt;次は、インフラの構成を変える更新です。API に &lt;code&gt;GET /items/{id}&lt;/code&gt;（ID を指定してアイテムを 1 件取得する）ルートを追加します。&lt;/p&gt;
+&lt;p&gt;hotswap は Lambda 関数のコードなど一部の変更にしか使えないため、左のターミナルでは通常の &lt;code&gt;cdk deploy&lt;/code&gt; に戻します。&lt;/p&gt;
+&lt;h2 id="スタックを変更する"&gt;スタックを変更する&lt;/h2&gt;
+&lt;p&gt;3 つのスタックのコードを、それぞれ同じように変更します。まず &lt;code&gt;code/cdk/lib/items-api-stack.ts&lt;/code&gt; を開きます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;code &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk/lib/items-api-stack.ts&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;[更新体験 ②]&lt;/code&gt; と書かれたコメントの下の 5 行の、先頭の &lt;code&gt;// &lt;/code&gt; を消してコメントを外します。&lt;/p&gt;
+&lt;p&gt;変更前:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// [更新体験 ②] 下の 5 行のコメントを外して GET /items/{id} を追加する
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// api.addRoutes({
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// path: &amp;#39;/items/{id}&amp;#39;,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// methods: [apigwv2.HttpMethod.GET],
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// integration,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// });
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;変更後:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;display:grid;"&gt;&lt;code class="language-typescript" data-lang="typescript"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// [更新体験 ②] 下の 5 行のコメントを外して GET /items/{id} を追加する
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;api&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;addRoutes&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;path&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;/items/{id}&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;methods&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; [&lt;span style="color:#a6e22e"&gt;apigwv2&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;HttpMethod&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;GET&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;integration&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex; background-color:#3c3d38"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices tip" &gt;&lt;p&gt;5 行を選択して &lt;code&gt;Ctrl + /&lt;/code&gt;（Mac は &lt;code&gt;Cmd + /&lt;/code&gt;）を押すと、まとめてコメントを外せます。&lt;/p&gt;</description></item><item><title>3 つ同時にデプロイする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/200-deploy.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/200-deploy.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;3 つのターミナルに、それぞれ次のコマンドを入力します。&lt;strong&gt;Enter はまだ押さずに&lt;/strong&gt;、3 つとも入力し終わってから、なるべく同時に Enter を押してください。&lt;/p&gt;
+&lt;p&gt;左のターミナル（&lt;code&gt;code/cdk&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;真ん中のターミナル（&lt;code&gt;code/express&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk deploy --express --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd deploy --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;--yes&lt;/code&gt; とは&lt;/strong&gt;: CDK と cdkd は、IAM の権限を作ったり変えたりするデプロイや、スタックの削除の前に「続けてよいか」を確認してきます。&lt;code&gt;--yes&lt;/code&gt; を付けると、この確認に自動で「はい」と答えて進みます。CDK では比較的最近追加されたオプションです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="出力を見てみよう"&gt;出力を見てみよう&lt;/h2&gt;
+&lt;h3 id="cdk-deploy"&gt;cdk deploy&lt;/h3&gt;
+&lt;p&gt;CDK のコードが CloudFormation テンプレートに変換され、CloudFormation がデプロイしている間は &lt;code&gt;deploying...&lt;/code&gt; のまま待ちます。完了すると、かかった時間と、作られた API の URL（&lt;code&gt;ApiUrl&lt;/code&gt;）が表示されます。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;✅ CdkStack
+
+✨ Deployment time: 57.75s
+
+Outputs:
+CdkStack.ApiUrl = https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
+...
+✨ Total time: 68.35s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;デプロイの前に、IAM の権限の変更が表として表示されます。これは &lt;code&gt;--yes&lt;/code&gt; で自動的に承認されます（&lt;code&gt;(auto-confirmed)&lt;/code&gt; と表示されます）。&lt;code&gt;1 feature flags are not configured.&lt;/code&gt; というメッセージも表示されますが、ワークショップの進行には影響しないので無視してかまいません。&lt;/p&gt;</description></item><item><title>cdkd をインストールする</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html</guid><description>&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;p&gt;cdkd は npm のパッケージとして公開されています。次のコマンドで、Codespace に cdkd をインストールします。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm i -g @go-to-k/cdkd@0.296.25
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;インストールには 1 分ほどかかります。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;&lt;code&gt;npm i -g&lt;/code&gt; とは&lt;/strong&gt;: npm は Node.js のパッケージを管理するツールです。&lt;code&gt;-g&lt;/code&gt;（グローバル）を付けると、どのディレクトリからでも &lt;code&gt;cdkd&lt;/code&gt; というコマンドで使えるようにインストールされます。&lt;code&gt;@0.296.25&lt;/code&gt; の部分は、インストールするバージョンを指定しています。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="確認"&gt;確認&lt;/h2&gt;
+&lt;p&gt;次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd --version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;インストールしたバージョンが表示されれば完了です。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;0.296.25
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;CDK の CLI（&lt;code&gt;cdk&lt;/code&gt; コマンド）は、Codespace の起動時に &lt;code&gt;code&lt;/code&gt; ディレクトリのパッケージとしてインストール済みです。こちらは &lt;code&gt;npx cdk&lt;/code&gt; のように &lt;code&gt;npx&lt;/code&gt; を付けて実行します。&lt;/p&gt;
+&lt;/div&gt;</description></item><item><title>Codespace を削除する</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/200-codespaces.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/50-cleanup/200-codespaces.html</guid><description>&lt;p&gt;ワークショップが終わったら、Codespace を削除します。Codespace は停止していてもストレージの利用料（無料枠）を消費し続けるためです。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+
+&lt;div class="notices warning" &gt;&lt;p&gt;Codespace を削除すると、Codespace の中で変更したファイルも消えます。残しておきたいものがあれば、先に手元にコピーしてください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://github.com/codespaces" target="_blank" rel="noopener noreferrer"&gt;https://github.com/codespaces&lt;/a&gt;
+ を開きます。&lt;/li&gt;
+&lt;li&gt;一覧から、このワークショップで作った Codespace（リポジトリ名が &lt;code&gt;jaws-ug-cdk/cdkd-intro-workshop&lt;/code&gt; のもの）を探します。&lt;/li&gt;
+&lt;li&gt;右側の &lt;code&gt;…&lt;/code&gt; ボタンを押し、&lt;code&gt;Delete&lt;/code&gt; を選びます。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;一覧から消えれば、削除は完了です。&lt;/p&gt;
+&lt;h2 id="任意bootstrap-で作ったものを削除する"&gt;（任意）bootstrap で作ったものを削除する&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdk bootstrap&lt;/code&gt; で作った &lt;code&gt;CDKToolkit&lt;/code&gt; スタックと、&lt;code&gt;cdkd bootstrap&lt;/code&gt; で作った S3 バケットは、置いておくだけならほとんど料金はかかりません。また CDK や cdkd を使うなら、残しておいてかまいません。&lt;/p&gt;
+&lt;p&gt;完全に片付けたい場合は、次のように削除します。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;CDKToolkit&lt;/code&gt;: CloudFormation のページでスタックを選び、&lt;code&gt;削除&lt;/code&gt; を押します。中の S3 バケット（&lt;code&gt;cdk-&lt;/code&gt; で始まるもの）は、空にしてから削除する必要があります。&lt;/li&gt;
+&lt;li&gt;cdkd の S3 バケット: S3 のページで、&lt;code&gt;cdkd-state-&lt;/code&gt; と &lt;code&gt;cdkd-assets-&lt;/code&gt; で始まるバケットを、それぞれ空にしてから削除します。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="notices warning" &gt;&lt;p&gt;同じ AWS アカウントで、ほかにも CDK や cdkd でデプロイしているスタックがある場合は、削除しないでください。デプロイや削除ができなくなります。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;お疲れさまでした！&lt;/p&gt;</description></item><item><title>今回のアーキテクチャ</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/200-architecture.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/200-architecture.html</guid><description>&lt;p&gt;このワークショップでは、アイテムを登録・取得できるシンプルな API を作ります。&lt;/p&gt;
+
+&lt;div class="mermaid" align="left"&gt;
+flowchart LR
+ user([あなた&lt;br/&gt;curl]) --&gt;|HTTP| api[API Gateway&lt;br/&gt;HTTP API]
+ api --&gt; fn[Lambda 関数]
+ fn --&gt;|読み書き| table[(DynamoDB&lt;br/&gt;テーブル)]
+&lt;/div&gt;
+
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;リソース&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;API Gateway（HTTP API）&lt;/td&gt;
+					&lt;td&gt;インターネットからのリクエストを受け付ける入り口&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;Lambda 関数&lt;/td&gt;
+					&lt;td&gt;リクエストを処理するプログラム。サーバーを用意しなくても動く&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;DynamoDB テーブル&lt;/td&gt;
+					&lt;td&gt;アイテムを保存するデータベース&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;API には次のルート（URL とメソッドの組み合わせ）があります。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ルート&lt;/th&gt;
+					&lt;th&gt;動き&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;GET /items&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;登録されているアイテムを一覧で返す&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;POST /items&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;アイテムを登録する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;GET /items/{id}&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;指定した ID のアイテムを 1 件返す（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.html"&gt;更新の体験&lt;/a&gt;
+で追加する）&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="同じ構成を-3-つデプロイする"&gt;同じ構成を 3 つデプロイする&lt;/h2&gt;
+&lt;p&gt;この構成を、3 つの方法で 1 つずつ、合わせて 3 セットデプロイします。中身はまったく同じで、スタックの名前とデプロイの方法だけが違います。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;スタック名&lt;/th&gt;
+					&lt;th&gt;デプロイの方法&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkExpressStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdk deploy --express&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;CdkdStack&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;&lt;code&gt;cdkd deploy&lt;/code&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;スタックとは&lt;/strong&gt;: CDK では、一緒にデプロイするリソースのまとまりを「スタック」と呼びます。デプロイ、更新、削除はスタック単位で行います。&lt;/p&gt;</description></item><item><title>「--app is required」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/300-wrong-directory.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/cdk&lt;/code&gt; などのディレクトリではなく、リポジトリのルートなど別の場所で &lt;code&gt;npx cdk deploy&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt; を実行すると、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;--app is required either in command-line, in cdk.json or in ~/.cdk.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;これは、CDK アプリの設定ファイル &lt;code&gt;cdk.json&lt;/code&gt; が、&lt;code&gt;code/cdk&lt;/code&gt;、&lt;code&gt;code/express&lt;/code&gt;、&lt;code&gt;code/cdkd&lt;/code&gt; の各ディレクトリの中にしかないためです。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;ターミナルに合ったディレクトリに移動してから、もう一度実行してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 左のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/express&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 真ん中のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdkd&amp;#34;&lt;/span&gt; &lt;span style="color:#75715e"&gt;# 右のターミナル&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;今いるディレクトリは、プロンプトの &lt;code&gt;➜&lt;/code&gt; の右側か、&lt;code&gt;pwd&lt;/code&gt; コマンドで確認できます。&lt;/p&gt;</description></item><item><title>3 つのデプロイ方法</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/300-deploy-methods.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/300-deploy-methods.html</guid><description>&lt;p&gt;このワークショップで比べるデプロイ方法を、簡単に紹介します。cdkd の詳しい仕組みは、ワークショップの冒頭のスライドで説明します。&lt;/p&gt;
+&lt;h2 id="cdk-deploy通常の-cdk"&gt;cdk deploy（通常の CDK）&lt;/h2&gt;
+&lt;p&gt;AWS CDK は、TypeScript などのプログラミング言語でインフラを定義できるツールです。
+&lt;code&gt;cdk deploy&lt;/code&gt; を実行すると、CDK はコードを &lt;strong&gt;CloudFormation テンプレート&lt;/strong&gt;（インフラの設計図）に変換し、AWS CloudFormation にデプロイを依頼します。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;CloudFormation テンプレートの形式&lt;/strong&gt;: CloudFormation のテンプレートは、JSON と YAML のどちらでも書けます。手で書くときは読みやすい YAML がよく使われますが、CDK は JSON で出力します（&lt;code&gt;cdk.out/CdkStack.template.json&lt;/code&gt; など）。&lt;code&gt;cdk synth&lt;/code&gt; を実行したときに画面に表示されるのは、読みやすいように YAML に変換したものです。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;CloudFormation は、テンプレートのとおりにリソースを作り、すべてのリソースが使える状態になるまで確かめてから完了します。途中で失敗したら、元の状態に戻してくれます（ロールバック）。安全な代わりに、待ち時間が長くなりがちです。&lt;/p&gt;
+&lt;h2 id="cdk-deploy-expressexpress-モード"&gt;cdk deploy &amp;ndash;express（Express モード）&lt;/h2&gt;
+&lt;p&gt;CloudFormation の &lt;strong&gt;Express モード&lt;/strong&gt;を使ったデプロイです。CDK のコードやテンプレートは通常の CDK と同じです。&lt;/p&gt;
+&lt;p&gt;Express モードでは、リソースの作成を AWS に依頼したところで、使える状態になるのを待たずに完了します。そのぶん速くなりますが、完了した直後はまだ準備中のリソースが残っていることがあります。また、失敗したときのロールバックは既定では行われません。&lt;/p&gt;
+&lt;h2 id="cdk-deploy-hotswapホットスワップ"&gt;cdk deploy &amp;ndash;hotswap（ホットスワップ）&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/index.html"&gt;更新の体験&lt;/a&gt;
+で使います。Lambda 関数のコードなど、一部の変更だけを CloudFormation を通さずに直接書き換える、開発用のデプロイ方法です。とても速いですが、インフラの構成の変更（API のルートの追加など）には使えません。&lt;/p&gt;
+&lt;h2 id="cdkd-deploy"&gt;cdkd deploy&lt;/h2&gt;
+&lt;p&gt;cdkd は、&lt;strong&gt;CloudFormation を使わずに&lt;/strong&gt; AWS の API を直接呼んでリソースを作るツールです。今ある CDK のコードを書き換えずに、そのまま使えます。&lt;/p&gt;</description></item><item><title>API を呼んでみる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/300-try-api.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/30-deploy/300-try-api.html</guid><description>&lt;p&gt;デプロイした API が動いているか、実際に呼んで確かめます。3 つのターミナルで、それぞれ自分のスタックの API を呼びます。&lt;/p&gt;
+&lt;h2 id="手順"&gt;手順&lt;/h2&gt;
+&lt;h3 id="1-api-の-url-を変数に入れる"&gt;1. API の URL を変数に入れる&lt;/h3&gt;
+&lt;p&gt;各ターミナルで、デプロイの出力に表示された &lt;code&gt;ApiUrl&lt;/code&gt; の URL をコピーし、次のように &lt;code&gt;API_URL&lt;/code&gt; という変数に入れます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;API_URL&lt;span style="color:#f92672"&gt;=&lt;/span&gt;https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;https://xxxxxxxxxx...&lt;/code&gt; の部分は、自分の出力の URL に置き換えてください。3 つのスタックは URL が違うので、ターミナルごとに、そのターミナルの出力の URL を使います。&lt;/p&gt;
+
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;変数とは&lt;/strong&gt;: &lt;code&gt;API_URL=...&lt;/code&gt; と入力すると、そのターミナルの中で &lt;code&gt;$API_URL&lt;/code&gt; と書いた部分が URL に置き換わるようになります。長い URL を何度も貼り付けなくて済みます。ターミナルを閉じると消えるので、閉じてしまった場合はもう一度設定してください。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id="2-アイテムを登録する"&gt;2. アイテムを登録する&lt;/h3&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;POST /items&lt;/code&gt; にアイテムを登録します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -X POST &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;$API_URL&lt;span style="color:#e6db74"&gt;/items&amp;#34;&lt;/span&gt; -H &lt;span style="color:#e6db74"&gt;&amp;#39;Content-Type: application/json&amp;#39;&lt;/span&gt; -d &lt;span style="color:#e6db74"&gt;&amp;#39;{&amp;#34;name&amp;#34;: &amp;#34;cdkd&amp;#34;}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices info" &gt;&lt;p&gt;&lt;strong&gt;curl とは&lt;/strong&gt;: ターミナルから HTTP のリクエストを送るコマンドです。&lt;code&gt;-X POST&lt;/code&gt; でメソッドを、&lt;code&gt;-H&lt;/code&gt; でヘッダーを、&lt;code&gt;-d&lt;/code&gt; で送るデータを指定しています。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;登録したアイテムが返ってきます。&lt;code&gt;id&lt;/code&gt; は自動で振られます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;0b3c...&amp;#34;&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;cdkd&amp;#34;&lt;/span&gt;,&lt;span style="color:#f92672"&gt;&amp;#34;createdAt&amp;#34;&lt;/span&gt;:&lt;span style="color:#e6db74"&gt;&amp;#34;2026-...&amp;#34;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-アイテムの一覧を取得する"&gt;3. アイテムの一覧を取得する&lt;/h3&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;GET /items&lt;/code&gt; からアイテムの一覧を取得します。&lt;/p&gt;</description></item><item><title>bootstrap</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/300-bootstrap.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/300-bootstrap.html</guid><description>&lt;p&gt;CDK も cdkd も、デプロイする前に AWS アカウントの準備（bootstrap）が必要です。どちらも、1 つの AWS アカウントとリージョンにつき 1 回だけ行います。&lt;/p&gt;
+&lt;h2 id="cdk-の-bootstrap"&gt;CDK の bootstrap&lt;/h2&gt;
+&lt;p&gt;CDK は、Lambda 関数のコードや CloudFormation テンプレートを S3 バケットにアップロードしてからデプロイします。&lt;code&gt;cdk bootstrap&lt;/code&gt; は、そのための S3 バケットやデプロイ用の IAM ロールを、&lt;code&gt;CDKToolkit&lt;/code&gt; という CloudFormation スタックとして作ります。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;code/cdk&lt;/code&gt; ディレクトリに移動して、次のコマンドを実行します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;git rev-parse --show-toplevel&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/code/cdk&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npx cdk bootstrap
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="notices note" &gt;&lt;p&gt;&lt;code&gt;cdk deploy&lt;/code&gt; と &lt;code&gt;cdk deploy --express&lt;/code&gt; は、同じ &lt;code&gt;CDKToolkit&lt;/code&gt; を使います。&lt;code&gt;code/express&lt;/code&gt; ディレクトリで bootstrap し直す必要はありません。&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h2 id="cdkd-の-bootstrap"&gt;cdkd の bootstrap&lt;/h2&gt;
+&lt;p&gt;cdkd は CloudFormation を使わないので、&lt;code&gt;CDKToolkit&lt;/code&gt; スタックの代わりに、自分で使う S3 バケットを作ります。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;バケット&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdkd-state-&amp;lt;アカウント ID&amp;gt;&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;どのスタックでどのリソースを作ったかという状態（state）を保存する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdkd-assets-&amp;lt;アカウント ID&amp;gt;-&amp;lt;リージョン&amp;gt;&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;Lambda 関数のコードなどをアップロードする&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;続けて、次のコマンドを実行します。&lt;/p&gt;</description></item><item><title>振り返り</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/300-recap.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/40-update/300-recap.html</guid><description>&lt;p&gt;ここまでの結果を振り返ってみましょう。&lt;/p&gt;
+&lt;h2 id="実測の例"&gt;実測の例&lt;/h2&gt;
+&lt;p&gt;ワークショップの準備で計測した時間の例です（東京リージョン、3 つ同時に実行、CDK のコードの変換を含む）。みなさんの結果と比べてみてください。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;体験&lt;/th&gt;
+					&lt;th&gt;cdk deploy&lt;/th&gt;
+					&lt;th&gt;&amp;ndash;hotswap&lt;/th&gt;
+					&lt;th&gt;&amp;ndash;express&lt;/th&gt;
+					&lt;th&gt;cdkd deploy&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;初回のデプロイ&lt;/td&gt;
+					&lt;td&gt;約 70 秒&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 44 秒&lt;/td&gt;
+					&lt;td&gt;約 24 秒&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;① Lambda 関数のコード&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 8 秒&lt;/td&gt;
+					&lt;td&gt;約 34 秒&lt;/td&gt;
+					&lt;td&gt;約 16 秒&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;② ルートの追加&lt;/td&gt;
+					&lt;td&gt;約 37 秒&lt;/td&gt;
+					&lt;td&gt;—&lt;/td&gt;
+					&lt;td&gt;約 28 秒&lt;/td&gt;
+					&lt;td&gt;約 11 秒&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;時間はリージョンの混み具合などで変わります。&lt;/p&gt;
+&lt;h2 id="わかったこと"&gt;わかったこと&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;初回のデプロイでは、Express モードも cdkd も、通常の &lt;code&gt;cdk deploy&lt;/code&gt; より速くなります。&lt;/li&gt;
+&lt;li&gt;Lambda 関数のコードだけの変更なら、hotswap がとても速いです。ただし、hotswap はルートの追加のようなインフラの変更には使えません。&lt;/li&gt;
+&lt;li&gt;cdkd は、&lt;strong&gt;変更の種類を気にせず、いつも同じ &lt;code&gt;cdkd deploy&lt;/code&gt; で&lt;/strong&gt;速くデプロイできます。「この変更なら hotswap、この変更なら通常のデプロイ」と使い分ける必要がありません。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;次の章では、作ったスタックを削除します。&lt;/p&gt;</description></item><item><title>「cdkd: command not found」エラー</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/400-cdkd-not-found.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/400-cdkd-not-found.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdkd&lt;/code&gt; のコマンドを実行すると、次のようなエラーになります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;bash: cdkd: command not found
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;cdkd がインストールされていません。&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/20-getting-started/200-install-cdkd.html"&gt;cdkd をインストールする&lt;/a&gt;
+の手順でインストールしてください。&lt;/p&gt;
+&lt;p&gt;Codespace を作り直した場合も、cdkd をもう一度インストールする必要があります。&lt;/p&gt;</description></item><item><title>コードの構成</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/400-code.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/10-introduction/400-code.html</guid><description>&lt;p&gt;ワークショップで使う CDK のコードは、リポジトリの &lt;code&gt;code&lt;/code&gt; ディレクトリにあります。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;code/
+├── lambda/items.js # 3 つのアプリで共通の Lambda 関数のコード
+├── cdk/ # cdk deploy → CdkStack
+│ ├── bin/cdk.ts
+│ ├── lib/items-api-stack.ts
+│ └── cdk.json
+├── express/ # cdk deploy --express → CdkExpressStack
+│ ├── bin/express.ts
+│ ├── lib/items-api-stack.ts
+│ └── cdk.json
+└── cdkd/ # cdkd deploy → CdkdStack
+ ├── bin/cdkd.ts
+ ├── lib/items-api-stack.ts
+ └── cdk.json
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;デプロイの方法ごとにディレクトリを分けています。3 つのターミナルからそれぞれのディレクトリでコマンドを実行すると、3 つのデプロイを同時に走らせられます。&lt;/p&gt;
+&lt;p&gt;どのディレクトリも、中身は同じ形をしています。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;ファイル&lt;/th&gt;
+					&lt;th&gt;役割&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;cdk.json&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;CDK アプリの設定ファイル。&lt;code&gt;cdk&lt;/code&gt; や &lt;code&gt;cdkd&lt;/code&gt; のコマンドは、このファイルがあるディレクトリで実行する&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;bin/*.ts&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;CDK アプリの入り口。どの名前でスタックを作るかを書く&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;lib/items-api-stack.ts&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;スタックの中身。どんなリソースを作るかを書く&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="スタックのコードを見てみよう"&gt;スタックのコードを見てみよう&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;code/cdk/lib/items-api-stack.ts&lt;/code&gt; を開きます。ターミナルで次のコマンドを実行します。&lt;/p&gt;</description></item><item><title>cdkd のスタックが東京リージョンに見当たらない</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/500-wrong-region.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/500-wrong-region.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;cdkd deploy&lt;/code&gt; は成功したのに、AWS マネジメントコンソールの東京リージョンで、Lambda 関数や DynamoDB テーブルが見当たりません。&lt;code&gt;ApiUrl&lt;/code&gt; の URL に &lt;code&gt;us-east-1&lt;/code&gt; が含まれています。&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;CdkdStack.ApiUrl = https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;cdkd は、&lt;code&gt;aws login&lt;/code&gt; で設定したリージョンを読まず、環境変数 &lt;code&gt;AWS_REGION&lt;/code&gt; が設定されていないとバージニア北部リージョン（&lt;code&gt;us-east-1&lt;/code&gt;）にデプロイします（&lt;a href="https://github.com/go-to-k/cdkd/issues/2100" target="_blank" rel="noopener noreferrer"&gt;go-to-k/cdkd#2100&lt;/a&gt;
+）。&lt;/p&gt;
+&lt;p&gt;このワークショップの Codespace では、起動時に &lt;code&gt;AWS_REGION=ap-northeast-1&lt;/code&gt; を設定しているので、通常はこの問題は起きません。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;次のコマンドで、&lt;code&gt;AWS_REGION&lt;/code&gt; が設定されているか確認します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;echo $AWS_REGION
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;何も表示されない場合は、次のコマンドで設定します。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;export AWS_REGION&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;us-east-1&lt;/code&gt; にデプロイしてしまったスタックは、右のターミナル（&lt;code&gt;code/cdkd&lt;/code&gt;）で次のコマンドを実行して削除してから、デプロイし直してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cdkd destroy --region us-east-1 --yes
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item><item><title>会社の AWS アカウントで AccessDenied になる</title><link>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/600-access-denied.html</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://jaws-ug-cdk.github.io/cdkd-intro-workshop/95-troubleshooting/600-access-denied.html</guid><description>&lt;h2 id="症状"&gt;症状&lt;/h2&gt;
+&lt;p&gt;ログインはできているのに、&lt;code&gt;cdkd bootstrap&lt;/code&gt; や &lt;code&gt;cdkd deploy&lt;/code&gt;、&lt;code&gt;cdk deploy&lt;/code&gt; で &lt;code&gt;AccessDenied&lt;/code&gt; や &lt;code&gt;403 Forbidden&lt;/code&gt; のエラーになります。&lt;/p&gt;
+&lt;h2 id="原因"&gt;原因&lt;/h2&gt;
+&lt;p&gt;会社などの組織で管理されている AWS アカウントでは、組織のルールで次のような制限がかかっていることがあります。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;決められたネットワーク（社内ネットワークなど）以外からの操作を禁止している&lt;/li&gt;
+&lt;li&gt;S3 バケットや IAM ロールの作成など、特定の操作を禁止している&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Codespaces は GitHub のクラウド上で動いているので、社内ネットワークからの操作とはみなされません。手元のパソコンでは使える AWS アカウントでも、Codespaces からはエラーになることがあります。&lt;/p&gt;
+&lt;h2 id="対処法"&gt;対処法&lt;/h2&gt;
+&lt;p&gt;組織の制限は、ワークショップの中では解除できません。個人で作った AWS アカウントを使ってください（&lt;a href="https://jaws-ug-cdk.github.io/cdkd-intro-workshop/index.html"&gt;事前準備&lt;/a&gt;
+を参照）。&lt;/p&gt;</description></item></channel></rss>
