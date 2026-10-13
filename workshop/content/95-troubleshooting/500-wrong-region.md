@@ -29,8 +29,8 @@ echo $AWS_REGION
 export AWS_REGION=ap-northeast-1
 ```
 
-`us-east-1` にデプロイしてしまったスタックは、右のターミナル（`code/cdkd`）で次のコマンドを実行して削除してから、デプロイし直してください。
+`us-east-1` にデプロイしてしまったスタックは、右のターミナルで次のコマンドを実行して削除してから、デプロイし直してください。
 
 ```bash
-cdkd destroy --region us-east-1 --yes
+cdkd destroy CdkdStack --region us-east-1 --output cdk.out/cdkd --yes
 ```

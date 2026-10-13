@@ -9,10 +9,10 @@ hotswap は Lambda 関数のコードなど一部の変更にしか使えない�
 
 ## スタックを変更する
 
-3 つのスタックのコードを、それぞれ同じように変更します。まず `code/cdk/lib/items-api-stack.ts` を開きます。
+`code/lib/items-api-stack.ts` を開きます。3 つのスタックはどれもこのファイルから作られるので、変更は 1 か所で済みます。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/cdk/lib/items-api-stack.ts"
+code "$(git rev-parse --show-toplevel)/code/lib/items-api-stack.ts"
 ```
 
 `[更新体験 ②]` と書かれたコメントの下の 5 行の、先頭の `// ` を消してコメントを外します。
@@ -47,40 +47,30 @@ code "$(git rev-parse --show-toplevel)/code/cdk/lib/items-api-stack.ts"
 **コメントとは**: `//` から行の終わりまでは「コメント」として扱われ、プログラムとしては無視されます。コメントを外すと、その行がプログラムとして動くようになります。
 {{% /notice %}}
 
-同じ変更を、残りの 2 つのファイルにも行います。
-
-```bash
-code "$(git rev-parse --show-toplevel)/code/express/lib/items-api-stack.ts"
-```
-
-```bash
-code "$(git rev-parse --show-toplevel)/code/cdkd/lib/items-api-stack.ts"
-```
-
 {{% notice note %}}
-3 つのファイルとも変更したら、保存されているか確認しましょう。エディタのタブのファイル名の横に `●` が付いていたら、保存されていません。`Ctrl + S`（Mac は `Cmd + S`）で保存してください。
+変更したら、保存されているか確認しましょう。エディタのタブのファイル名の横に `●` が付いていたら、保存されていません。`Ctrl + S`（Mac は `Cmd + S`）で保存してください。
 {{% /notice %}}
 
 ## 3 つ同時にデプロイする
 
 3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。
 
-左のターミナル（`code/cdk`）:
+左のターミナル:
 
 ```bash
-time npx cdk deploy --yes
+time npx cdk deploy CdkStack --output cdk.out/cdk --yes
 ```
 
-真ん中のターミナル（`code/express`）:
+真ん中のターミナル:
 
 ```bash
-time npx cdk deploy --express --yes
+time npx cdk deploy CdkExpressStack --express --output cdk.out/express --yes
 ```
 
-右のターミナル（`code/cdkd`）:
+右のターミナル:
 
 ```bash
-time cdkd deploy --yes
+time cdkd deploy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 ## 出力を見てみよう

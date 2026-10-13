@@ -23,29 +23,29 @@ const message = 'Hello from cdkd workshop!';
 ```
 
 {{% notice note %}}
-`code/lambda/items.js` は 3 つのアプリで共通のファイルです。1 か所を書き換えるだけで、3 つのスタックすべてに反映されます。
+`code/lambda/items.js` は 3 つのスタックで共通のファイルです。1 か所を書き換えるだけで、3 つのスタックすべてに反映されます。
 {{% /notice %}}
 
 ## 3 つ同時にデプロイする
 
 3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。
 
-左のターミナル（`code/cdk`）:
+左のターミナル:
 
 ```bash
-time npx cdk deploy --hotswap --yes
+time npx cdk deploy CdkStack --hotswap --output cdk.out/cdk --yes
 ```
 
-真ん中のターミナル（`code/express`）:
+真ん中のターミナル:
 
 ```bash
-time npx cdk deploy --express --yes
+time npx cdk deploy CdkExpressStack --express --output cdk.out/express --yes
 ```
 
-右のターミナル（`code/cdkd`）:
+右のターミナル:
 
 ```bash
-time cdkd deploy --yes
+time cdkd deploy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 ## 出力を見てみよう

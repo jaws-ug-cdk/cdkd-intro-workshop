@@ -9,15 +9,15 @@ CDK も cdkd も、デプロイする前に AWS アカウントの準備（boots
 
 CDK は、Lambda 関数のコードや CloudFormation テンプレートを S3 バケットにアップロードしてからデプロイします。`cdk bootstrap` は、そのための S3 バケットやデプロイ用の IAM ロールを、`CDKToolkit` という CloudFormation スタックとして作ります。
 
-`code/cdk` ディレクトリに移動して、次のコマンドを実行します。
+`code` ディレクトリに移動して、次のコマンドを実行します。
 
 ```bash
-cd "$(git rev-parse --show-toplevel)/code/cdk"
+cd "$(git rev-parse --show-toplevel)/code"
 npx cdk bootstrap
 ```
 
 {{% notice note %}}
-`cdk deploy` と `cdk deploy --express` は、同じ `CDKToolkit` を使います。`code/express` ディレクトリで bootstrap し直す必要はありません。
+`cdk deploy` と `cdk deploy --express` は、同じ `CDKToolkit` を使います。Express モードのために bootstrap し直す必要はありません。
 {{% /notice %}}
 
 ## cdkd の bootstrap

@@ -7,22 +7,22 @@ weight = 200
 
 3 つのターミナルに、それぞれ次のコマンドを入力します。**Enter はまだ押さずに**、3 つとも入力し終わってから、なるべく同時に Enter を押してください。
 
-左のターミナル（`code/cdk`）:
+左のターミナル:
 
 ```bash
-time npx cdk deploy --yes
+time npx cdk deploy CdkStack --output cdk.out/cdk --yes
 ```
 
-真ん中のターミナル（`code/express`）:
+真ん中のターミナル:
 
 ```bash
-time npx cdk deploy --express --yes
+time npx cdk deploy CdkExpressStack --express --output cdk.out/express --yes
 ```
 
-右のターミナル（`code/cdkd`）:
+右のターミナル:
 
 ```bash
-time cdkd deploy --yes
+time cdkd deploy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 {{% notice info %}}

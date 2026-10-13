@@ -4,20 +4,15 @@
 
 ```
 code/
-├── lambda/items.js         # 3 つのアプリで共通の Lambda のコード
-├── cdk/                    # cdk deploy            → CdkStack
-│   ├── bin/cdk.ts
-│   └── lib/items-api-stack.ts
-├── express/                # cdk deploy --express  → CdkExpressStack
-│   ├── bin/express.ts
-│   └── lib/items-api-stack.ts
-└── cdkd/                   # cdkd deploy           → CdkdStack
-    ├── bin/cdkd.ts
-    └── lib/items-api-stack.ts
+├── cdk.json
+├── bin/app.ts              # CdkStack / CdkExpressStack / CdkdStack を作る
+├── lib/items-api-stack.ts  # 3 つのスタックで共通のスタックの中身
+└── lambda/items.js         # 3 つのスタックで共通の Lambda のコード
 ```
 
-ディレクトリごとに CDK アプリが分かれているので、ターミナルを 3 つ開いて同時に実行できます。
-3 つの `lib/items-api-stack.ts` は同じ内容です（`npm test` で同じテンプレートになることを確かめています）。
+1 つの CDK アプリに、同じ中身のスタックを 3 つの名前で作っています。
+コマンドごとにスタック名と `--output`（synth の出力先）を分けているので、ターミナルを 3 つ開いて同時に実行できます。
+`--output` を分けないと、同じ `cdk.out` を取り合って `Another CLI ... is currently synthing to cdk.out` というエラーになります。
 
 ## 準備
 
@@ -31,24 +26,24 @@ export AWS_REGION=ap-northeast-1   # cdkd はプロファイルの region を読
 ## デプロイ
 
 ```bash
-cd cdk     && npx cdk deploy --yes
-cd express && npx cdk deploy --express --yes
-cd cdkd    && cdkd deploy --yes
+npx cdk deploy CdkStack --output cdk.out/cdk --yes
+npx cdk deploy CdkExpressStack --express --output cdk.out/express --yes
+cdkd deploy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 ## 更新
 
 編集したら、3 つのターミナルで同じコマンドをもう一度実行します。
 
-- 更新体験 ①: `lambda/items.js` の `message` を書き換える（1 か所で 3 つに反映される。`cdk/` では `npx cdk deploy --hotswap --yes` も試す）
-- 更新体験 ②: 3 つの `lib/items-api-stack.ts` それぞれで、`GET /items/{id}` ルートのコメントを外す
+- 更新体験 ①: `lambda/items.js` の `message` を書き換える（`CdkStack` では `npx cdk deploy CdkStack --hotswap --output cdk.out/cdk --yes` も試す）
+- 更新体験 ②: `lib/items-api-stack.ts` で、`GET /items/{id}` ルートのコメントを外す
 
 ## 削除
 
 ```bash
-cd cdk     && npx cdk destroy --yes
-cd express && npx cdk destroy --express --yes
-cd cdkd    && cdkd destroy --yes
+npx cdk destroy CdkStack --output cdk.out/cdk --yes
+npx cdk destroy CdkExpressStack --express --output cdk.out/express --yes
+cdkd destroy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 ## テスト

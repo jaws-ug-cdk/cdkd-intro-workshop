@@ -7,37 +7,26 @@ weight = 400
 
 ```
 code/
-├── lambda/items.js         # 3 つのアプリで共通の Lambda 関数のコード
-├── cdk/                    # cdk deploy            → CdkStack
-│   ├── bin/cdk.ts
-│   ├── lib/items-api-stack.ts
-│   └── cdk.json
-├── express/                # cdk deploy --express  → CdkExpressStack
-│   ├── bin/express.ts
-│   ├── lib/items-api-stack.ts
-│   └── cdk.json
-└── cdkd/                   # cdkd deploy           → CdkdStack
-    ├── bin/cdkd.ts
-    ├── lib/items-api-stack.ts
-    └── cdk.json
+├── cdk.json                # CDK アプリの設定ファイル
+├── bin/app.ts              # CdkStack / CdkExpressStack / CdkdStack を作る
+├── lib/items-api-stack.ts  # 3 つのスタックで共通のスタックの中身
+└── lambda/items.js         # 3 つのスタックで共通の Lambda 関数のコード
 ```
 
-デプロイの方法ごとにディレクトリを分けています。3 つのターミナルからそれぞれのディレクトリでコマンドを実行すると、3 つのデプロイを同時に走らせられます。
-
-どのディレクトリも、中身は同じ形をしています。
+1 つの CDK アプリの中に、同じ中身のスタックを 3 つの名前で作っています。デプロイするときに、どのスタックをどの方法でデプロイするかをコマンドで指定します。
 
 | ファイル | 役割 |
 |---|---|
 | `cdk.json` | CDK アプリの設定ファイル。`cdk` や `cdkd` のコマンドは、このファイルがあるディレクトリで実行する |
-| `bin/*.ts` | CDK アプリの入り口。どの名前でスタックを作るかを書く |
+| `bin/app.ts` | CDK アプリの入り口。どの名前でスタックを作るかを書く |
 | `lib/items-api-stack.ts` | スタックの中身。どんなリソースを作るかを書く |
 
 ## スタックのコードを見てみよう
 
-`code/cdk/lib/items-api-stack.ts` を開きます。ターミナルで次のコマンドを実行します。
+`code/lib/items-api-stack.ts` を開きます。ターミナルで次のコマンドを実行します。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/cdk/lib/items-api-stack.ts"
+code "$(git rev-parse --show-toplevel)/code/lib/items-api-stack.ts"
 ```
 
 主な部分を抜き出すと、次のようになっています。
@@ -52,7 +41,7 @@ const table = new dynamodb.TableV2(this, 'ItemsTable', {
 // Lambda 関数（コードは code/lambda/items.js）
 const handler = new lambda.Function(this, 'ItemsHandler', {
   runtime: lambda.Runtime.NODEJS_24_X,
-  code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda')),
+  code: lambda.Code.fromAsset(path.join(__dirname, '../lambda')),
   handler: 'items.handler',
   environment: {
     TABLE_NAME: table.tableName,
@@ -76,21 +65,19 @@ api.addRoutes({
 
 `table.grants.readWriteData(handler)` の 1 行で、「Lambda 関数がテーブルを読み書きしてよい」という IAM の権限が作られます。権限の細かい設定を自分で書かなくてよいのも CDK の便利なところです。
 
-{{% notice note %}}
-`code/express/lib/items-api-stack.ts` と `code/cdkd/lib/items-api-stack.ts` も、まったく同じ内容です。cdkd のために CDK のコードを書き換える必要はありません。
-{{% /notice %}}
-
 ## アプリの入り口を見てみよう
 
-`code/cdkd/bin/cdkd.ts` を開きます。
+`code/bin/app.ts` を開きます。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/cdkd/bin/cdkd.ts"
+code "$(git rev-parse --show-toplevel)/code/bin/app.ts"
 ```
 
 ```typescript
 const app = new cdk.App();
+new ItemsApiStack(app, 'CdkStack');
+new ItemsApiStack(app, 'CdkExpressStack');
 new ItemsApiStack(app, 'CdkdStack');
 ```
 
-`lib/items-api-stack.ts` で定義したスタックを、`CdkdStack` という名前で作っています。`code/cdk/bin/cdk.ts` では `CdkStack`、`code/express/bin/express.ts` では `CdkExpressStack` という名前です。
+`lib/items-api-stack.ts` で定義したスタックを、`CdkStack`、`CdkExpressStack`、`CdkdStack` の 3 つの名前で作っています。3 つとも中身はまったく同じです。cdkd のために CDK のコードを書き換える必要はありません。

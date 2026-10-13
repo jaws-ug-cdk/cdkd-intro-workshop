@@ -7,22 +7,22 @@ weight = 100
 
 3 つのターミナルにそれぞれ次のコマンドを入力し、3 つとも入力し終わってから、なるべく同時に Enter を押します。
 
-左のターミナル（`code/cdk`）:
+左のターミナル:
 
 ```bash
-time npx cdk destroy --yes
+time npx cdk destroy CdkStack --output cdk.out/cdk --yes
 ```
 
-真ん中のターミナル（`code/express`）:
+真ん中のターミナル:
 
 ```bash
-time npx cdk destroy --express --yes
+time npx cdk destroy CdkExpressStack --express --output cdk.out/express --yes
 ```
 
-右のターミナル（`code/cdkd`）:
+右のターミナル:
 
 ```bash
-time cdkd destroy --yes
+time cdkd destroy CdkdStack --output cdk.out/cdkd --yes
 ```
 
 {{% notice note %}}
