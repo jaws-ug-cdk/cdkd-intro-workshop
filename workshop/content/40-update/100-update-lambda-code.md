@@ -12,7 +12,7 @@ CDK では、このような変更のために `--hotswap` という開発用の
 `code/lambda/items.js` を開きます。ターミナルで次のコマンドを実行します。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/lambda/items.js"
+code lambda/items.js
 ```
 
 `message` の文字列を、好きなものに書き換えます。

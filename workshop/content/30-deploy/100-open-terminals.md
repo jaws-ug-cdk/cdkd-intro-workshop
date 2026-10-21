@@ -20,7 +20,7 @@ weight = 100
 3 つのターミナルそれぞれで、次のコマンドを実行します。
 
 ```bash
-cd "$(git rev-parse --show-toplevel)/code"
+cd /workspaces/{{< reponame >}}/code
 ```
 
 以降の手順では、ターミナルを次のように呼びます。3 つとも同じ `code` ディレクトリで、デプロイするスタックと方法だけが違います。

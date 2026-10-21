@@ -18,7 +18,7 @@ weight = 300
 `code` ディレクトリに移動してから、もう一度実行してください。
 
 ```bash
-cd "$(git rev-parse --show-toplevel)/code"
+cd /workspaces/{{< reponame >}}/code
 ```
 
 今いるディレクトリは、プロンプトの `➜` の右側か、`pwd` コマンドで確認できます。
