@@ -12,7 +12,7 @@ hotswap は Lambda 関数のコードなど一部の変更にしか使えない�
 `code/lib/items-api-stack.ts` を開きます。3 つのスタックはどれもこのファイルから作られるので、変更は 1 か所で済みます。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/lib/items-api-stack.ts"
+code lib/items-api-stack.ts
 ```
 
 `[更新体験 ②]` と書かれたコメントの下の 5 行の、先頭の `// ` を消してコメントを外します。

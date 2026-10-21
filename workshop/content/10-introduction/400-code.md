@@ -26,7 +26,7 @@ code/
 `code/lib/items-api-stack.ts` を開きます。ターミナルで次のコマンドを実行します。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/lib/items-api-stack.ts"
+code /workspaces/{{< reponame >}}/code/lib/items-api-stack.ts
 ```
 
 主な部分を抜き出すと、次のようになっています。
@@ -70,7 +70,7 @@ api.addRoutes({
 `code/bin/app.ts` を開きます。
 
 ```bash
-code "$(git rev-parse --show-toplevel)/code/bin/app.ts"
+code /workspaces/{{< reponame >}}/code/bin/app.ts
 ```
 
 ```typescript
