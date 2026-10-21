@@ -18,9 +18,8 @@ code/
 
 ```bash
 npm ci
-npm i -g @go-to-k/cdkd@0.296.25
+npm i -g @go-to-k/cdkd@0.301.15
 export AWS_PROFILE=<プロファイル名>
-export AWS_REGION=ap-northeast-1   # cdkd はプロファイルの region を読まないため必須
 ```
 
 ## デプロイ
