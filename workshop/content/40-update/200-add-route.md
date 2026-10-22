@@ -86,7 +86,7 @@ Changes: 2 to create, 0 to update, 0 to delete
 `cdk deploy` と `cdk deploy --express` も、変更するリソースは同じです。それでも、CloudFormation が変更点を調べてから反映するぶん、時間がかかります。
 
 {{% notice note %}}
-左のターミナルで `--hotswap` を付けたまま実行すると、ルートの追加は hotswap の対象外なので、`(no changes)` と表示されて何も反映されません。hotswap は Lambda 関数のコードの変更など、決まった種類の変更のためのものです。
+左のターミナルで `--hotswap` を付けたまま実行すると、ルートの追加は hotswap の対象外なので、`(no changes)` と表示されて何も反映されません。hotswap は Lambda 関数のコードの変更など、決まった種類の変更のためのものです。`--hotswap-fallback` を使うと、このような変更のときは通常の CloudFormation のデプロイに切り替わります。
 {{% /notice %}}
 
 ## 確認

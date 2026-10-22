@@ -24,7 +24,7 @@ Express モードでは、リソースの作成を AWS に依頼したところ�
 
 ## cdk deploy --hotswap（ホットスワップ）
 
-[更新の体験]({{< ref "/40-update" >}})で使います。Lambda 関数のコードなど、一部の変更だけを CloudFormation を通さずに直接書き換える、開発用のデプロイ方法です。とても速いですが、インフラの構成の変更（API のルートの追加など）には使えません。
+[更新の体験]({{< ref "/40-update" >}})で使います。Lambda 関数のコードなど、一部の変更だけを CloudFormation を通さずに直接書き換える、開発用のデプロイ方法です。とても速いですが、インフラの構成の変更（API のルートの追加など）には使えません。`--hotswap-fallback` を使うと、hotswap できない変更が含まれるときは、通常の CloudFormation のデプロイに切り替わります。
 
 ## cdkd deploy
 
@@ -38,5 +38,5 @@ CloudFormation の代わりに、どのリソースを作ったかという「�
 |---|---|---|
 | `cdk deploy` | 使う | すべて |
 | `cdk deploy --express` | 使う（Express モード） | すべて |
-| `cdk deploy --hotswap` | 使わない | Lambda のコードなど一部だけ（それ以外の変更は反映されない） |
+| `cdk deploy --hotswap` | 使わない | Lambda のコードなど一部だけ（それ以外の変更は反映されない。`--hotswap-fallback` なら CloudFormation でデプロイ） |
 | `cdkd deploy` | 使わない | すべて |

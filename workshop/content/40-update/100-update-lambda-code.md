@@ -15,12 +15,14 @@ CDK では、このような変更のために `--hotswap` という開発用の
 code lambda/items.js
 ```
 
-`message` の文字列を、好きなものに書き換えます。
+ファイルの下のほうに、次の行があります。
 
 ```javascript {hl_lines=["2"]}
 // [更新体験 ①] message の文字列を好きなものに書き換える
-const message = 'Hello from cdkd workshop!';
+const message = 'Hello from items API';
 ```
+
+`message` の文字列を、好きなものに書き換えます（例: `'Hello from cdkd workshop!'`）。
 
 {{% notice note %}}
 `code/lambda/items.js` は 3 つのスタックで共通のファイルです。1 か所を書き換えるだけで、3 つのスタックすべてに反映されます。
